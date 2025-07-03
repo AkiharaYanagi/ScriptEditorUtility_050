@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <BaseOutputPath>..\Dll\</BaseOutputPath>
+    <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
+    <RootNamespace>ScriptEditor</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="CSharp\testClass.cs" />
+    <Compile Remove="Program.cs" />
+  </ItemGroup>
+
+</Project>

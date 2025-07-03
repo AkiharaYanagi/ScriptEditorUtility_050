@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <RootNamespace>_01_Chara_050</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IOChara\IOChara.cs" />
+    <Compile Remove="IOChara\LoadCharaBin.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScriptEditorUtility_050\00_ScriptEditorUtility_050.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="IOChara\" />
+  </ItemGroup>
+
+</Project>
