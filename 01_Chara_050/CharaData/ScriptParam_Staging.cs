@@ -68,8 +68,8 @@ namespace ScriptEditor
 			Scaling = src.Scaling;
 			SE = src.SE;
 
-			SE_name = string.Copy( src.SE_name );
-			VC_name = string.Copy( src.VC_name );
+			SE_name = new string(src.SE_name.ToCharArray());
+			VC_name = new string(src.VC_name.ToCharArray());
 		}
 
 		//初期化
@@ -112,8 +112,8 @@ namespace ScriptEditor
 			Scaling = src.Scaling;
 			SE = src.SE;
 
-			SE_name = string.Copy( src.SE_name );
-			VC_name = string.Copy( src.VC_name );
+			SE_name = new string ( src.SE_name.ToCharArray () );
+			VC_name = new string ( src.VC_name.ToCharArray () );
 		}
 
 		//クローン

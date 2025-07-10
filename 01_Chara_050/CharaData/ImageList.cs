@@ -16,9 +16,9 @@ namespace ScriptEditor
 			BL_ImgDt.Add ( imgDt );
 		}
 
-		public ImageData Get ( string name )
+		public ImageData? Get ( string name )
 		{
-			return DCT_ImgDt.TryGetValue ( name, out ImageData imgdt ) ? imgdt : null;
+			return DCT_ImgDt.TryGetValue ( name, out ImageData? imgdt ) ? imgdt : null;
 		}
 
 		public void Remove ( string name )

@@ -8,16 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="IOChara\IOChara.cs" />
-    <Compile Remove="IOChara\LoadCharaBin.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ScriptEditorUtility_050\00_ScriptEditorUtility_050.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="IOChara\" />
   </ItemGroup>
 
 </Project>

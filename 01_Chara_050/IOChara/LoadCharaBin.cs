@@ -95,11 +95,19 @@ namespace ScriptEditor
 				//ビヘイビア
 				string imgfile_bhv = IOChara.GetBhvImgPath ( filepath );
 				string imgdir_bhv = IOChara.GetBhvImgDir ( filepath );
+
+#if false
 				LoadImage ( imgfile_bhv, imgdir_bhv, br, chara.behavior.BD_Image );		
+#endif
+
 				//ガーニッシュ
 				string imgfile_gns = IOChara.GetGnsImgPath ( filepath );
 				string imgdir_gns = IOChara.GetGnsImgDir ( filepath );
+
+#if false
 				LoadImage ( imgfile_gns, imgdir_gns, br, chara.garnish.BD_Image );
+#endif
+
 			}	//using
 		
 		}

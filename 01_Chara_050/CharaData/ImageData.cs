@@ -27,7 +27,7 @@ namespace ScriptEditor
 		public Bitmap Thumbnail { set; get; } = new Bitmap ( THUM_W, THUM_H );
 
 		//名前
-		public string Name { set; get; }
+		public string Name { set; get; } = "Name";
 
 		public ImageData ()
 		{
