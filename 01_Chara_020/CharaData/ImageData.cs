@@ -13,14 +13,14 @@ namespace ScriptEditor020
 
 
 		//イメージ
-		public Image Img { set; get; } = null;
+		public Image Img { set; get; } = new Bitmap ( 1, 1 );
 
 
 		//イメージディレクトリのフルパスを保存し、描画に必要なときのみ読み込む
-		public string Path { set; get; } = null;	//"pass\\img.png";
+		public string Path { set; get; } = "pass\\img.png";
 
 		//イメージファイル(.img)と名前から読込
-		public string Img_file { set; get; } = null;	//"file.img"
+		public string Img_file { set; get; } = "file.img";
 
 
 
@@ -28,7 +28,7 @@ namespace ScriptEditor020
 		public Bitmap Thumbnail { set; get; } = new Bitmap ( THUM_W, THUM_H );
 
 		//名前
-		public string Name { set; get; }
+		public string Name { set; get; } = "Name";
 
 		public ImageData ()
 		{
