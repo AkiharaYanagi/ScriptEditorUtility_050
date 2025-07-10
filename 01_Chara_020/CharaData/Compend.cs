@@ -5,7 +5,7 @@ using ScriptEditor;
 namespace ScriptEditor020
 {
 	using BD_SQC = BindingDictionary < Sequence >;
-	using BL_SQC = BindingList < Sequence >;
+	using BL_SQC = BindingList < Sequence? >;
 	using BD_IMGDT = BindingDictionary < ImageData >;
 	using DCT_SQC = Dictionary < string, Sequence >;
 
@@ -34,11 +34,11 @@ namespace ScriptEditor020
 		//スクリプトのみクリア
 		public void ClearScript ()
 		{
-			//手動で内部クリア
-			BL_SQC bl_sqc = BD_Sequence.GetBindingList ();
-			foreach ( Sequence seq in bl_sqc )
+            //手動で内部情報までクリア
+            BL_SQC bl_sqc = BD_Sequence.GetBindingList ();
+			foreach ( Sequence? seq in bl_sqc )
 			{
-				seq.Clear ();
+				seq?.Clear ();
 			}
 			BD_Sequence.Clear ();
 		}
@@ -78,9 +78,9 @@ namespace ScriptEditor020
 		{
 			int maxNumScript = 0;
 			BL_SQC bl_sqc = BD_Sequence.GetBindingList ();
-			foreach ( Sequence seq in bl_sqc )
+			foreach ( Sequence? seq in bl_sqc )
 			{
-				if ( maxNumScript < seq.ListScript.Count )
+				if ( maxNumScript < seq?.ListScript.Count )
 				{
 					maxNumScript = seq.ListScript.Count;
 				}

@@ -8,7 +8,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Control\**" />
+    <Compile Remove="IOChara\Doc\**" />
+    <Compile Remove="IOChara\Text\**" />
+    <EmbeddedResource Remove="Control\**" />
+    <EmbeddedResource Remove="IOChara\Doc\**" />
+    <EmbeddedResource Remove="IOChara\Text\**" />
+    <None Remove="Control\**" />
+    <None Remove="IOChara\Doc\**" />
+    <None Remove="IOChara\Text\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Class1.cs" />
+    <Compile Remove="IOChara\LoadChara.cs" />
+    <Compile Remove="IOChara\LoadCharaBin.cs" />
+    <Compile Remove="IOChara\LoadCharaBinFunc.cs" />
+    <Compile Remove="IOChara\LoadCharaImg.cs" />
+    <Compile Remove="IOChara\LoadCharaImg_Func.cs" />
+    <Compile Remove="IOChara\LoadTextChara.cs" />
+    <Compile Remove="IOChara\SaveChara.cs" />
+    <Compile Remove="IOChara\SaveCharaBin.cs" />
+    <Compile Remove="IOChara\SaveCharaBinFunc.cs" />
+    <Compile Remove="IOChara\SaveCharaBin_Util.cs" />
+    <Compile Remove="IOChara\SaveCharaImg.cs" />
     <Compile Remove="STS_TXT.cs" />
   </ItemGroup>
 
