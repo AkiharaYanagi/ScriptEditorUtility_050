@@ -17,10 +17,20 @@ namespace ScriptEditor
 		public override string ToString () { return Name; }
 
 		//スクリプトリスト
-		public List<Script> ListScript { get; set; } = new List<Script> ();
+		public List < Frame > ListScript { get; set; } = new List < Frame > ();
 
-		//コンストラクタ
-		public Sequence ()	//ロード時に空白が必要
+
+        //-------------------------------------------------------------
+		//Actionで扱っていた項目をSequenceに移項
+		public ActionParam ActPrm { get; set; } = new ActionParam ();
+
+
+        //-------------------------------------------------------------
+
+
+
+        //コンストラクタ
+        public Sequence ()	//ロード時に空白が必要
 		{
 		}
 
@@ -34,22 +44,22 @@ namespace ScriptEditor
 		public Sequence ( Sequence sequence )
 		{
             Name = sequence.Name;
-			foreach ( Script script in sequence.ListScript )
+			foreach (Frame script in sequence.ListScript )
 			{
-				ListScript.Add ( new Script ( script ) );
+				ListScript.Add ( new Frame( script ) );
 			}
 		}
 
 		//フレームの追加
 		public void AddScript ()
 		{
-			Script script = new Script ();
-			script.Frame = ListScript.Count;
+            Frame script = new Frame();
+			script.N = ListScript.Count;
 			ListScript.Add ( script );
 		}
-		public void AddScript ( Script script )
+		public void AddScript (Frame script )
 		{
-			script.Frame = ListScript.Count;
+			script.N = ListScript.Count;
 			ListScript.Add ( script );
 		}
 
@@ -70,9 +80,9 @@ namespace ScriptEditor
 		{
 			Clear ();
             Name = sequence.Name;
-			foreach ( Script script in sequence.ListScript )
+			foreach (Frame script in sequence.ListScript )
 			{
-				ListScript.Add ( new Script ( script ) );
+				ListScript.Add ( new Frame( script ) );
 			}
 		}
 
@@ -80,9 +90,9 @@ namespace ScriptEditor
 		public virtual void CopyScpList ( Sequence sequence )
 		{
 			ListScript.Clear ();
-			foreach ( Script script in sequence.ListScript )
+			foreach (Frame script in sequence.ListScript )
 			{
-				ListScript.Add ( new Script ( script ) );
+				ListScript.Add ( new Frame( script ) );
 			}
 		}
 	}

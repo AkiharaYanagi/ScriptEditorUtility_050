@@ -85,26 +85,42 @@ namespace ScriptEditor
 				//サイズ(uint)
 				uint size = br.ReadUInt32 ();
 
-				//キャラデータ
+                //キャラデータ
+#if false
 				LoadBinBehavior ( br, chara );
 				LoadBinGarnish ( br, chara );
-				LoadBinCommand ( br, chara );
+#endif
+                Compend bhv = chara.charaset.behavior;
+                Compend gns = chara.charaset.garnish;
+                LoadBinCompend( br, bhv );
+                LoadBinCompend ( br, gns );
+
+                //すべて読みこんでから名前の再指定
+                AssignName_NextSqc(bhv.BD_Sequence);
+                AssignName_NextSqc(gns.BD_Sequence);
+                AssignName_EfGnrt(bhv.BD_Sequence, gns);
+                AssignName_EfGnrt(gns.BD_Sequence, gns);
+				
+
+				//他データ
+                LoadBinCommand( br, chara );
 				LoadBinBranch ( br, chara );
 				LoadBinRoute ( br, chara );
 
+
+				//画像データ
+#if false
 				//ビヘイビア
 				string imgfile_bhv = IOChara.GetBhvImgPath ( filepath );
 				string imgdir_bhv = IOChara.GetBhvImgDir ( filepath );
 
-#if false
 				LoadImage ( imgfile_bhv, imgdir_bhv, br, chara.behavior.BD_Image );		
-#endif
+
 
 				//ガーニッシュ
 				string imgfile_gns = IOChara.GetGnsImgPath ( filepath );
 				string imgdir_gns = IOChara.GetGnsImgDir ( filepath );
 
-#if false
 				LoadImage ( imgfile_gns, imgdir_gns, br, chara.garnish.BD_Image );
 #endif
 

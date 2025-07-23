@@ -1,9 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Runtime.CompilerServices;
+﻿using System.Drawing;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace ScriptEditor
@@ -20,20 +17,25 @@ namespace ScriptEditor
 	//==================================================================================
 	public partial class LoadCharaBin
 	{
+#if false
 		//ビヘイビア
 		private void LoadBinBehavior ( BinaryReader br, Chara chara )
 		{
-			//Action : Sequence
-			Behavior bhv = chara.behavior;
+            //Action : Sequence
+            Compend bhv = chara.charaset.behavior;
 
 			//アクション個数
 			uint N_Act = br.ReadUInt32 ();
 
-			for ( uint i = 0; i < N_Act; ++ i )
+
+			for ( uint i = 0; i < N_Act; ++ i)
 			{
-				Action act = new Action ()
+				//名前
+				string name = br.ReadString ();
+
+				//各パラメータ（アクション固有）
+				ActionParam actPrm = new ActionParam ()
 				{
-					Name = br.ReadString (),
 					NextActionName = "Act_" + br.ReadUInt32 ().ToString(),	//uintから後に名前に変換する
 					Category = (ActionCategory) br.ReadByte (),
 					Posture = (ActionPosture) br.ReadByte (),
@@ -42,25 +44,38 @@ namespace ScriptEditor
 					Balance = br.ReadInt32 (),
 
 					Mana = br.ReadInt32 (),
-					Accel = br.ReadInt32 (),
+					Accel = br.ReadInt32 ()
 				};
-				for (int v = 0; v < Action.VRS_SIZE; ++ v )
+				for (int v = 0; v < ActionParam.VRS_SIZE; ++ v )
 				{
-					act.Versatile [ v ] = br.ReadInt32 ();
+                    actPrm.Versatile [ v ] = br.ReadInt32 ();
 				}
+
+				//シークエンスを確保
+				Sequence act = new Sequence()
+				{
+					Name = name,
+					ActPrm = actPrm,
+				};
 
 				//[]スクリプト
 				LoadBinListScript ( br, act.ListScript );
 
+				//追加
 				bhv.BD_Sequence.Add ( act );
 			}
 
 			//すべてのアクションを読み込んでから、
 			//"次アクション名" をIDからstringとして得る
-			foreach ( Action act in chara.behavior.BD_Sequence.GetEnumerable () )
+			foreach ( Sequence? act in bhv.BD_Sequence.GetEnumerable () )
 			{
-				int nextActionID = GetIndex ( act.NextActionName, "Act_" );
-				act.NextActionName = chara.behavior[ nextActionID ].Name;
+				if ( act is null ) { continue; }
+				
+				int nextActionID = LoadCharaBin_Utl.GetIndex ( act.ActPrm.NextActionName, "Act_" );
+				Sequence? sqc = bhv[nextActionID];
+				if ( sqc is null ) { continue; }
+
+				act.ActPrm.NextActionName = sqc.Name;
 			}
 		}
 
@@ -119,6 +134,9 @@ namespace ScriptEditor
 
 		}
 
+#endif
+
+#if false
 		//スクリプトリスト
 		private void LoadBinListScript ( BinaryReader br, List<Script> lscp )
 		{
@@ -294,6 +312,8 @@ namespace ScriptEditor
 			}
 		}
 
+#endif
+
 
 		//--------------------------------------------------------------
 		//コマンド
@@ -335,7 +355,7 @@ namespace ScriptEditor
 					cmd.ListGameKeyCommand.Add ( gkc );
 				}
 
-				chara.BD_Command.Add ( cmd );
+				chara.charaset.BD_Command.Add ( cmd );
 			}
 		}
 
@@ -356,7 +376,7 @@ namespace ScriptEditor
 				brc.Frame = (int)br.ReadUInt32 ();
 				brc.Other = br.ReadBoolean ();
 				
-				chara.BD_Branch.Add ( brc );
+				chara.charaset.BD_Branch.Add ( brc );
 			}
 		}
 
@@ -378,47 +398,51 @@ namespace ScriptEditor
 				{
 					//ブランチ
 					uint brc_id = br.ReadUInt32 ();
-					if ( brc_id > chara.BD_Branch.Count() )
+					if ( brc_id > chara.charaset.BD_Branch.Count() )
 					{
 						brc_id = 0;
 					}
 
-					Branch brc = chara.BD_Branch [ (int)brc_id ];
+					Branch? brc = chara.charaset.BD_Branch [ (int)brc_id ];
+					if ( brc is null ) { brc = new Branch (); }
 
 					TName t = new TName ( brc.Name );
 					rut.BD_BranchName.Add ( t );
 				}
 
-				chara.BD_Route.Add ( rut );
+				chara.charaset.BD_Route.Add ( rut );
 			}
 
 			//スクリプトにおけるルート名の再設定
-			foreach ( Action act in chara.behavior.BD_Sequence.GetEnumerable () )
+			foreach ( Sequence? sqc in chara.charaset.behavior.BD_Sequence.GetEnumerable () )
 			{
-				foreach ( Script scp in act.ListScript )
+				if ( sqc is null ) { return; }
+				foreach ( Frame? frm in sqc.ListScript )
 				{
 					//名前だけのリストを作成
-					List < string > L_name = new List<string> ();
-					foreach ( TName t in scp.BD_RutName.GetEnumerable () )
+					List < string > L_name = new List < string > ();
+					foreach ( TName? t in frm.BD_RutName.GetEnumerable () )
 					{
+						if ( t is null ) { continue; }
 						int id = GetIndex ( t.Name, "Rut_" );
-						L_name.Add ( chara.BD_Route [ id ].Name );
+						Route rut = chara.charaset.BD_Route [ id ] ?? new Route ();
+						L_name.Add ( rut.Name );
 					}
 
 					//クリアして再追加
-					scp.BD_RutName.Clear ();
+					frm.BD_RutName.Clear ();
 					foreach ( string name in L_name )
 					{
-						scp.BD_RutName.Add ( new TName ( name ) );
+						frm.BD_RutName.Add ( new TName ( name ) );
 					}
 				}
 			}
 
 		}
 
-
 		//----------------------
 		//str_indexからheadを除き、Int.Parse()して返す
+		//partial内のみからの参照
 		private int GetIndex ( string str_index, string head )
 		{
 			int n = head.Length;
@@ -435,4 +459,5 @@ namespace ScriptEditor
 			return nextActionID;
 		}
 	}
+
 }

@@ -7,13 +7,17 @@ namespace ScriptEditor
 	using BL_SQC = BindingList < Sequence? >;
 	using BD_IMGDT = BindingDictionary < ImageData >;
 	using DCT_SQC = Dictionary < string, Sequence >;
+	using BD_STR = BindingDictionary < TName >;
 
-	//================================================================
-	//	<コンペンド> 		【一覧】シークエンスの継承であるアクションやエフェクトのリストを扱う
-	//		┣[] シークエンス
-	//		┣[] イメージ
-	//================================================================
-	public class Compend
+
+    //================================================================
+    //	<コンペンド> 		【一覧】シークエンスの継承であるアクションやエフェクトのリストを扱う
+    //		┣[] シークエンス
+    //		┣[] イメージ
+    //		┣[] SE
+    //		┣[] ボイス
+    //================================================================
+    public class Compend
 	{
 		//---------------------------------------------------------------------
 		//シークエンスリスト	
@@ -22,9 +26,24 @@ namespace ScriptEditor
 		//イメージリスト
 		public BD_IMGDT BD_Image = new BD_IMGDT ();
 
-		//---------------------------------------------------------------------
-		//クリア
-		public void Clear ()
+        //SE
+        public BD_STR BD_SE = new BD_STR();
+        
+		//ボイス
+        public BD_STR BD_VC = new BD_STR();
+
+
+        //---------------------------------------------------------------------
+        //Sequence型 インデクサ
+        public Sequence? this[int i]
+        {
+            set { BD_Sequence.GetBindingList()[i] = value; }
+            get	{ return BD_Sequence.GetBindingList()[i]; }
+        }
+
+        //---------------------------------------------------------------------
+        //クリア
+        public void Clear ()
 		{
 			ClearScript ();
 			ClearImage ();

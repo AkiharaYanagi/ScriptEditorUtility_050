@@ -30,13 +30,13 @@ namespace ScriptEditor
 	// GameMain
 
 	[Serializable]
-	public class Script
+	public class Frame
 	{
 		//--------------------------------------------------------------------
 		//	ID
 		//--------------------------------------------------------------------
 		//シークエンス内スクリプトリストにおける自身のフレーム数(番目)
-		public int Frame { get; set; } = 0;
+		public int N { get; set; } = 0;
 
 		//編集用グループ値 (0はグループ無し、１からグループ生成)
 		public int Group { get; set; } = 0;
@@ -92,14 +92,14 @@ namespace ScriptEditor
 
 		//================================================================
 		//コンストラクタ
-		public Script ()
+		public Frame ()
 		{
 		}
 
 		//コピーコンストラクタ
-		public Script ( Script s )
+		public Frame ( Frame s )
 		{
-            Frame = s.Frame;
+            N = s.N;
             Group = s.Group;
             ImgName = s.ImgName;
             Pos = s.Pos;
@@ -123,7 +123,7 @@ namespace ScriptEditor
 		//初期化
 		public void Clear ()
 		{
-			Frame = 0;
+			N = 0;
 			Group = 0;
 			ImgName = "Clear";
 			Pos = new Point ();
@@ -143,9 +143,9 @@ namespace ScriptEditor
 		}
 
 		//コピー
-		public void Copy ( Script s )
+		public void Copy ( Frame s )
 		{
-            Frame = s.Frame;
+            N = s.N;
 
             Group = s.Group;
             ImgName = s.ImgName;
@@ -165,7 +165,7 @@ namespace ScriptEditor
 		}
 
 		//コピー(フレーム数以外)
-		public void Copy_Other_than_frame ( Script s )
+		public void Copy_Other_than_frame ( Frame s )
 		{
             //this.Frame = s.Frame;
 
@@ -196,11 +196,11 @@ namespace ScriptEditor
 			{
 				return false;
 			}
-			
-			//キャストして各値を比較する
-			Script s = (Script)obj;
 
-			if (Frame != s.Frame ) { return false; }
+            //キャストして各値を比較する
+            Frame s = (Frame)obj;
+
+			if (N != s.N ) { return false; }
 			if (Group != s.Group ) { return false; }
 			if (ImgName != s.ImgName ) { return false; }
 			if (Pos != s.Pos ) { return false; }
@@ -217,7 +217,7 @@ namespace ScriptEditor
 		//Equals用ハッシュコード
 		public override int GetHashCode ()
 		{
-			int i0  = Frame;
+			int i0  = N;
 			int i1  = i0  ^ Group;
 			int i2  = i1  ^ ImgName.GetHashCode ();
 			int i3  = i2  ^ Pos.GetHashCode ();

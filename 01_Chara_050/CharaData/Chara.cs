@@ -3,6 +3,11 @@
 
 namespace ScriptEditor
 {
+    using BD_Cmd = BindingDictionary<Command>;
+    using BD_Brc = BindingDictionary<Branch>;
+    using BD_Rut = BindingDictionary<Route>;
+
+
     //==================================================================================
     // ->  サウンド（ボイス）をコンペンドが保持する
     // ->  アクションとエフェクトを同一化する
@@ -25,12 +30,18 @@ namespace ScriptEditor
 
     public class CharaSet
     {
-        Compend behavior = new Compend ();
-        Compend garnish = new Compend ();
+        public Compend behavior = new Compend ();
+        public Compend garnish = new Compend ();
+
+        public BD_Cmd BD_Command { get; } = new BD_Cmd();       //コマンドリスト
+        public BD_Brc BD_Branch { get; } = new BD_Brc();        //ブランチリスト
+        public BD_Rut BD_Route { get; } = new BD_Rut();		//ルートリスト(エディタにおける一時変数)
     }
 
     public class Chara
     {
+        public CharaSet charaset = new CharaSet ();
+
         public void Clear ()
         {
 

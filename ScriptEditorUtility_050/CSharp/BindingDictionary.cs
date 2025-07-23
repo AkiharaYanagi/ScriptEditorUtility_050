@@ -18,7 +18,7 @@ namespace ScriptEditor
 	//	名前の変更もDCTの更新が必要
 	//	型制約：参照型(where T : class)を指定したので変更は可能
 	//=============================================================
-	public class BindingDictionary < T > where T : class, IName, new ()
+	public class BindingDictionary < T > where T : class?, IName, new ()
 	{
 		//----------------------------------------
 		//メインデータ
@@ -100,8 +100,10 @@ namespace ScriptEditor
 		}
 
 		//追加
-		public void Add ( T t )
+		public void Add ( T? t )
 		{
+			if ( t is null ) { return; }
+
 			//名前チェック
 			t.Name = UniqueName ( t.Name );
 
@@ -197,11 +199,15 @@ namespace ScriptEditor
 		{
 			if ( index < 0 || BL_t.Count <= index ) { return; }
 			if ( BL_t [ index ] is null ) { return; }
-			if ( BL_t [ index ].Name is null ) { return; }
+//			if ( BL_t [ index ].Name is null ) { return; }
 
-			string name = BL_t [ index ].Name;
+			T? t = BL_t [ index ]; 
+			string name = t?.Name ?? "";
+			if ( name == "" ) { return; }
+
 			DCT_t.Remove ( name );
 			BL_t.RemoveAt ( index );
+			
 			//@info BindingListの前にDictionaryを削除しないと
 			//　バインドされたコントロールのイベントが途中で発生する
 			// -> Countなどの値がずれてAssertする
@@ -263,13 +269,13 @@ namespace ScriptEditor
 
 		//型指定ディープコピー
 		//Derived_New : Tを引数に継承型を生成するデリゲート
-		public void DeepCopy ( BindingDictionary < T > bd_t, System.Func < T, T > Derived_New )
+		public void DeepCopy ( BindingDictionary < T > bd_t, System.Func < T?, T? > Derived_New )
 		{
 			//同一オブジェクトのときは何もしない
 			if ( ReferenceEquals ( this, bd_t ) ) { return; }
 
 			Clear ();
-			foreach ( T t in bd_t.BL_t )
+			foreach ( T? t in bd_t.BL_t )
 			{
 				this.Add ( Derived_New ( t )  );
 			}
