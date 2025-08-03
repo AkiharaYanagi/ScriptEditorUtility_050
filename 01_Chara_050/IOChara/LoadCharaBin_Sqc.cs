@@ -85,7 +85,7 @@ namespace ScriptEditor
             {
                 if ( sqc is null ) { continue; }
 
-                foreach (Script? scp in sqc.ListScript)
+                foreach (Frame? scp in sqc.ListScript)
                 {
                     //エフェクト生成内のエフェクト名
                     foreach (EffectGenerate? efGnrt in scp.BD_EfGnrt.GetEnumerable())

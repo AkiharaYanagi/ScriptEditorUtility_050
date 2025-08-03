@@ -68,7 +68,7 @@ namespace ScriptEditor
 		public virtual void Clear ()
 		{
 			Name = "Clear";
-			foreach ( Script script in ListScript )
+			foreach ( Frame script in ListScript )
 			{
 				script.Clear ();
 			}

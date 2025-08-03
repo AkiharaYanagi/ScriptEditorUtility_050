@@ -22,4 +22,8 @@
     <Compile Remove="Program.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Form\" />
+  </ItemGroup>
+
 </Project>

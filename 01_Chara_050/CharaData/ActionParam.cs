@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using System.Runtime.CompilerServices;
+
 
 namespace ScriptEditor
 {
@@ -30,8 +32,9 @@ namespace ScriptEditor
 
         //汎用フラグ
         public const int VRS_SIZE = 16;
-        //		public int[] Versatile { get; set; } = new int [ VRS_SIZE ];
-        public int[] Versatile { get; set; } = Enumerable.Range(0, VRS_SIZE).ToArray();
+        //public int[] Versatile { get; set; } = new int [ VRS_SIZE ];
+        //public int[] Versatile { get; set; } = Enumerable.Range(0, VRS_SIZE).ToArray();
 
+        public List < int > Versatile { get; set; } = new List<int> ( VRS_SIZE );
     }
 }

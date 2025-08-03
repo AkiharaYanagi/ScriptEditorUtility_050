@@ -10,17 +10,17 @@ namespace ScriptEditor
 	public partial class LoadCharaBin
 	{
         //スクリプトリスト
-        private void LoadBinListScript(BinaryReader br, List<Script> lscp)
+        private void LoadBinListScript(BinaryReader br, List<Frame> lscp)
         {
             //スクリプト個数
             uint N_Scp = br.ReadUInt32();
             for (uint i = 0; i < N_Scp; ++i)
             {
                 //スクリプト
-                Script scp = new Script();
+                Frame scp = new Frame();
 
                 //フレーム数は数え上げながら設定する
-                scp.Frame = (int)i;
+                scp.N = (int)i;
 
                 //----------------------------------------
                 //グループ

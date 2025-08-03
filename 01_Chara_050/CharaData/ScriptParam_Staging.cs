@@ -36,6 +36,7 @@ namespace ScriptEditor
 		public void SetScaling ( int x, int y ) { Scaling = new Point ( x, y ); }
 		public void SetScalingX ( int x ) { Scaling = new Point ( x, Scaling.Y ); }
 		public void SetScalingY ( int y ) { Scaling = new Point ( Scaling.X, y ); }
+		//拡大中心
 
 		public int SE { get; set; } = 0;	//SE指定
 

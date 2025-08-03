@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.26100.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\01_Chara_020\01_Chara_020.csproj" />
+    <ProjectReference Include="..\01_Chara_050\01_Chara_050.csproj" />
+    <ProjectReference Include="..\ScriptEditorUtility_050\00_ScriptEditorUtility_050.csproj" />
+  </ItemGroup>
+
+</Project>
