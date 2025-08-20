@@ -72,7 +72,7 @@ namespace ScriptEditor
                 }
 
                 //バトルパラメータ
-                ScriptParam_Battle btlPrm = new ScriptParam_Battle()
+                FrameParam_Battle btlPrm = new FrameParam_Battle()
                 {
                     CalcState = (CLC_ST)br.ReadInt32(),
                     Vel = new Point(br.ReadInt32(), br.ReadInt32()),
@@ -88,7 +88,7 @@ namespace ScriptEditor
                 scp.BtlPrm = btlPrm;
 
                 //ステージングパラメータ
-                ScriptParam_Staging stgPrm = new ScriptParam_Staging()
+                FrameParam_Staging stgPrm = new FrameParam_Staging()
                 {
                     BlackOut = br.ReadByte(),
                     Vibration = br.ReadByte(),
@@ -102,7 +102,6 @@ namespace ScriptEditor
                     Color = Color.FromArgb((int)br.ReadUInt32()),
                     Color_time = br.ReadByte(),
                     Scaling = new Point(br.ReadInt32(), br.ReadInt32()),
-                    SE = (int)br.ReadUInt32(),
                     SE_name = br.ReadString(),
                     VC_name = br.ReadString(),
                 };

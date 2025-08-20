@@ -1,6 +1,8 @@
 ﻿using System.Drawing;
+using ScriptEditor;
 
-namespace ScriptEditor
+
+namespace ScriptEditor020
 {
 	//---------------------------------------------------------------------
 	//	スクリプト内でエフェクトを生成するクラス

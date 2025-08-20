@@ -25,9 +25,9 @@ namespace ScriptEditor
             //名前指定
             TestNameAssign(ch);
 
-            //IOテスト
-            TestIO(ch);
 #endif
+            //IOテスト
+            TestIO ( chara );
         }
 
         //=====================================================================
@@ -98,11 +98,14 @@ namespace ScriptEditor
         //バイナリファイル
         public void TestIO_Bin(Chara ch)
         {
+            string dir = Directory.GetCurrentDirectory();
+            string filepathbin = Path.Combine(dir, Filename);
+
             SaveCharaBin saveCharaBin = new SaveCharaBin();
-            saveCharaBin.Do(FilenameBin, ch);
+            saveCharaBin.Do(filepathbin, ch);
 
             LoadCharaBin loadCharaBin = new LoadCharaBin();
-            loadCharaBin.Do(FilenameBin, ch);
+            loadCharaBin.Do(filepathbin, ch);
 
             Debug.WriteLine("TestIO_Bin: OK.");
         }

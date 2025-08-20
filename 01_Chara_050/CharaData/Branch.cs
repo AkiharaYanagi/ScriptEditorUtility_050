@@ -4,6 +4,8 @@ namespace ScriptEditor
 {
 	//------------------------------------------------
 	//	各種条件によるスクリプト分岐
+	//		050: 複数条件を保持に変更
+	//			条件は複数、遷移先は常に１つ
 	//------------------------------------------------
 	public class Branch : IName
 	{
@@ -15,8 +17,9 @@ namespace ScriptEditor
 		//条件 定数
 		public BranchCondition Condition { get; set; } = BranchCondition.CMD;
 
-		//条件　コマンド名
-		public string NameCommand { get; set; } = "NameCommand";
+		//条件　コマンド名（複数）
+//		public string NameCommand { get; set; } = "NameCommand";
+		public BindingDictionary < TName > BD_NameCommand { get; set; } = new BindingDictionary < TName > ();
 
 		//遷移先　シークエンス名
 		public string NameSequence { get; set; } = "NameSequence";
@@ -41,7 +44,7 @@ namespace ScriptEditor
 
 		public Branch ( string strCommand, string strSequence )
 		{
-			NameCommand = strCommand;
+            BD_NameCommand.Add ( new TName ( strCommand ) );
 			NameSequence = strSequence;
 		}
 

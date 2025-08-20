@@ -110,9 +110,15 @@ namespace ScriptEditor020
 
 			//ディープコピー
 			//引数：Sequenceを受けて新規Actionを生成して返すデリゲート
-			BD_Sequence.DeepCopy ( srcCompend.BD_Sequence, sqc=>new Action(sqc) );
+			BD_Sequence.DeepCopy ( srcCompend.BD_Sequence, NewAction );
 
 			CopyImageList ( srcCompend );
+		}
+
+		static public Sequence? NewAction ( Sequence? sqc)
+		{
+			if (sqc is null) { return null; }
+			return new Action ( sqc );
 		}
 	}
 
@@ -137,12 +143,18 @@ namespace ScriptEditor020
 
 			//ディープコピー
 			//引数：Sequenceを受けて新規Effectを生成して返すデリゲート
-			BD_Sequence.DeepCopy ( srcCompend.BD_Sequence, sqc=>new Effect(sqc) );
+			BD_Sequence.DeepCopy ( srcCompend.BD_Sequence, NewEffect );
 
 
 			CopyImageList ( srcCompend );
 		}
-	}
+
+        static public Sequence? NewEffect(Sequence? sqc)
+        {
+            if (sqc is null) { return null; }
+            return new Effect(sqc);
+        }
+    }
 
 
 }

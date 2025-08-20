@@ -89,10 +89,16 @@ namespace ScriptEditor
 			//--------------------------------------------------------
 			//スクリプト部書出
 			bw.Flush ();
-		
-			//long ms_pos = ms.Position;
-			
-			using ( FileStream fs = new FileStream ( IOChara.GetScpPath( filepath ), FileMode.Create, FileAccess.Write ) )
+
+            //long ms_pos = ms.Position;
+            string scppath = IOChara.GetScpPath(filepath);
+			string? scpdir = Path.GetDirectoryName ( scppath );
+			if (scpdir is not null)
+			{
+				Directory.CreateDirectory ( scpdir );
+			}
+
+            using ( FileStream fs = new FileStream ( scppath, FileMode.Create, FileAccess.Write ) )
 			using ( BufferedStream bwFl = new BufferedStream( fs ) )
 			{
 				//バージョン(uint)
@@ -196,8 +202,10 @@ namespace ScriptEditor
 
 
 				//実データ
-				foreach (ImageData imgdt in bdImg.GetEnumerable ())
+				foreach (ImageData? imgdt in bdImg.GetEnumerable ())
 				{
+					if ( imgdt is null ) { continue; }
+
 #if false
 				//イメージを一時領域に書出
 				using ( MemoryStream msImg = new MemoryStream () )
@@ -269,8 +277,10 @@ namespace ScriptEditor
 
 
 			//実データ
-			foreach ( ImageData id in bdImg.GetEnumerable () )
+			foreach ( ImageData? id in bdImg.GetEnumerable () )
 			{
+                if ( id is null) { continue; }
+
 #if false
 				//イメージを一時領域に書出
 				using ( MemoryStream msImg = new MemoryStream () )
@@ -297,7 +307,7 @@ namespace ScriptEditor
 
 #endif
 
-				WriteImage ( bw, id );
+                WriteImage( bw, id );
 			}
 		}
 

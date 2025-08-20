@@ -17,6 +17,8 @@ namespace ScriptEditor
         {
             uint nAct = (uint)cmpd.BD_Sequence.Count();
             bw.Write(nAct);
+
+            //Sequence
             foreach (Sequence? sqc in cmpd.BD_Sequence.GetEnumerable())
             {
 				if ( sqc is null ) { continue; }
@@ -37,8 +39,8 @@ namespace ScriptEditor
                     bw.Write( i );
                 }
 
-
-                SaveBinListScript(bw, chara, sqc.ListScript, chara.charaset.behavior);
+                //各フレームリストの書き出し
+                SaveBinListFrame( bw, chara, sqc.ListScript, cmpd );
             }
         }
 #if false
@@ -97,8 +99,10 @@ namespace ScriptEditor
 			bw.Write ( nCommand );
 
 			//実データ [sizeof ( Command ) * n]
-			foreach ( Command cmd in chara.charaset.BD_Command.GetEnumerable () )
+			foreach ( Command? cmd in chara.charaset.BD_Command.GetEnumerable () )
 			{
+				if ( cmd is null ) { continue; }
+
 				bw.Write ( cmd.Name );		//string (length , [UTF8])
 				bw.Write ( (byte)cmd.LimitTime );
 
@@ -134,12 +138,23 @@ namespace ScriptEditor
 			bw.Write ( nBrc );
 
 			//実データ [sizeof ( Branch ) * n]
-			foreach ( Branch brc in chara.charaset.BD_Branch.GetEnumerable () )
+			foreach ( Branch? brc in chara.charaset.BD_Branch.GetEnumerable () )
 			{
+				if ( brc is null ) { continue; }
+
 				bw.Write ( brc.Name );		//string (length , [UTF8])
 				bw.Write ( (byte)brc.Condition );	//enum -> byte
-				bw.Write ( brc.NameCommand );		//string (length , [UTF8])
-				bw.Write ( (uint)chara.charaset.GetIndexOfCommand ( brc.NameCommand ) );	//int -> uint
+
+				uint n = (uint)brc.BD_NameCommand.Count();
+                bw.Write ( n );
+				foreach (TName? tn in brc.BD_NameCommand.GetEnumerable())
+				{
+					if ( tn is null ) { continue; }
+
+					bw.Write ( tn.Name );		//string (length , [UTF8])
+					bw.Write ( (uint)chara.charaset.GetIndexOfCommand (tn.Name) );	//int -> uint
+				}			
+				
 				bw.Write ( brc.NameSequence );		//string (length , [UTF8])
 				bw.Write ( (uint)chara.charaset.GetIndexOfAction ( brc.NameSequence ) );	//int -> uint
 				bw.Write ( (uint)brc.Frame );	//int -> byte
@@ -177,10 +192,10 @@ namespace ScriptEditor
 			}
 		}
 
-		//---------------------------------------------------------------------
-		//ListScript
-		//behaviorとgarnishでイメージインデックスの検索元が異なるので引数Compendで指定する
-		public static void SaveBinListScript ( BinaryWriter bw, Chara chara, List < Frame > lsFrm, Compend cmp )
+        //---------------------------------------------------------------------
+        //ListFrame
+        //behaviorとgarnishでイメージインデックスの検索元が異なるので引数Compendで指定する
+        public static void SaveBinListFrame ( BinaryWriter bw, Chara chara, List < Frame > lsFrm, Compend cmp )
 		{
 			//スクリプト個数
 			uint nScp = (uint)lsFrm.Count;
@@ -269,11 +284,11 @@ namespace ScriptEditor
 			}
 		}
 
-		//---------------------------------------------------------------------
-		//ScriptParam_Battle
-		public static void SaveBinScrPrmBtl ( BinaryWriter bw, Frame frm )
+        //---------------------------------------------------------------------
+        //FrameParam_Battle
+        public static void SaveBinScrPrmBtl ( BinaryWriter bw, Frame frm )
 		{
-			ScriptParam_Battle prm = frm.BtlPrm;
+            FrameParam_Battle prm = frm.BtlPrm;
 //			int i = (int)prm.CalcState ;
 			bw.Write ( (int)prm.CalcState );
 			bw.Write ( prm.Vel.X );
@@ -289,11 +304,11 @@ namespace ScriptEditor
 			bw.Write ( prm.DirectDamage );
 		}
 
-		//---------------------------------------------------------------------
-		//ScriptParam_Staging
-		public static void SaveBinScrPrmStg ( BinaryWriter bw, Frame frm )
+        //---------------------------------------------------------------------
+        //FrameParam_Staging
+        public static void SaveBinScrPrmStg ( BinaryWriter bw, Frame frm )
 		{
-			ScriptParam_Staging prm = frm.StgPrm;
+            FrameParam_Staging prm = frm.StgPrm;
 			bw.Write ( (byte)prm.BlackOut );
 			bw.Write ( (byte)prm.Vibration );
 			bw.Write ( (byte)prm.Stop );
@@ -308,7 +323,6 @@ namespace ScriptEditor
 			bw.Write ( (byte)prm.Color_time );
 			bw.Write ( prm.Scaling.X );
 			bw.Write ( prm.Scaling.Y );
-			bw.Write ( (uint)prm.SE );
 			bw.Write ( prm.SE_name );
 			bw.Write ( prm.VC_name );
 		}

@@ -10,8 +10,8 @@ namespace ScriptEditor
 	//		┣回転	┣残像間隔	┣残像個数	┣残像持続
 	//		┣個別振動	┣色調変更	┣色調変更持続
 	//================================================================
-	public class ScriptParam_Staging
-	{
+	public class FrameParam_Staging
+    {
 		//演出(全体)
 		public int BlackOut { get; set; } = 0;		//暗転[F]
 		public int Vibration { get; set; } = 0;		//振動[F](全体)
@@ -46,23 +46,25 @@ namespace ScriptEditor
 		public void ScalingCenter ( int x, int y ) { Scaling_Center = new Point( x, y ); }	//拡大中心
 
 		
-		//SE
-		public int SE { get; set; } = 0;	//SE指定
+		//SE, VC
+		//public int SE { get; set; } = 0;    //SE指定
 
+		public	Generate_Condition SE_GnrtCnd = Generate_Condition.COMPULSION;	//発生条件
+		public string SE_name = ""; //SE名指定
 
-		public string SE_name = "";	//SE名指定
+		public Generate_Condition VC_GnrtCnd = Generate_Condition.COMPULSION;	//発生条件
 		public string VC_name = "";	//音声指定
 
 
 		//================================================================
 
 		//コンストラクタ
-		public ScriptParam_Staging ()
+		public FrameParam_Staging()
 		{
 		}
 
 		//コピーコンストラクタ
-		public ScriptParam_Staging ( ScriptParam_Staging src )
+		public FrameParam_Staging(FrameParam_Staging src )
 		{
 			BlackOut = src.BlackOut;
 			Vibration = src.Vibration;
@@ -77,9 +79,10 @@ namespace ScriptEditor
 			Color = src.Color;
 			Color_time = src.Color_time;
 			Scaling = src.Scaling;
-			SE = src.SE;
 
+			SE_GnrtCnd = src.SE_GnrtCnd;
 			SE_name = new string(src.SE_name.ToCharArray());
+			VC_GnrtCnd = src.VC_GnrtCnd;
 			VC_name = new string(src.VC_name.ToCharArray());
 		}
 
@@ -99,14 +102,15 @@ namespace ScriptEditor
 			Color = new Color ();
 			Color_time = 0;
 			Scaling = new Point ( 0, 0 );
-			SE = 0;
 
+			SE_GnrtCnd = Generate_Condition.COMPULSION;
 			SE_name = "";	//SE名指定
+			VC_GnrtCnd = Generate_Condition.COMPULSION;
 			VC_name = "";	//音声指定
 		}
 
 		//コピー
-		public void Copy ( ScriptParam_Staging src )
+		public void Copy (FrameParam_Staging src )
 		{
 			BlackOut = src.BlackOut;
 			Vibration = src.Vibration;
@@ -121,16 +125,15 @@ namespace ScriptEditor
 			Color = src.Color;
 			Color_time = src.Color_time;
 			Scaling = src.Scaling;
-			SE = src.SE;
 
 			SE_name = new string ( src.SE_name.ToCharArray () );
 			VC_name = new string ( src.VC_name.ToCharArray () );
 		}
 
 		//クローン
-		public ScriptParam_Staging Clone ()
+		public FrameParam_Staging Clone ()
 		{
-			return new ScriptParam_Staging ( this );
+			return new FrameParam_Staging( this );
 		}
 	}
 }

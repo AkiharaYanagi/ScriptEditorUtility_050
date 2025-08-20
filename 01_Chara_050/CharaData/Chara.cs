@@ -37,12 +37,21 @@ namespace ScriptEditor
         public BD_Brc BD_Branch { get; } = new BD_Brc();        //ブランチリスト
         public BD_Rut BD_Route { get; } = new BD_Rut();     //ルートリスト(エディタにおける一時変数)
         
-        
-        //----------------------------------------------------------------
-        //名前からインデックスを取得
 
-        //アクション
-        public int GetIndexOfAction(string nameAction)
+        public void Clear ()
+        {
+			behavior.Clear ();
+			garnish.Clear ();
+            BD_Command.Clear ();
+            BD_Branch.Clear ();
+            BD_Route.Clear ();
+		}
+
+		//----------------------------------------------------------------
+		//名前からインデックスを取得
+
+		//アクション
+		public int GetIndexOfAction(string nameAction)
         {
             return behavior.BD_Sequence.IndexOf(nameAction);
         }
@@ -88,7 +97,8 @@ namespace ScriptEditor
 
         public void Clear ()
         {
-
+            charaset.Clear ();
+            charaset_common.Clear();
         }
     }
 }

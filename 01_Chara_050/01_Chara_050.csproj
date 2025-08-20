@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CharaData\Script.cs" />
+    <Compile Remove="CharaData\ScriptParam_Battle.cs" />
+    <Compile Remove="CharaData\ScriptParam_Staging.cs" />
+    <Compile Remove="IOChara\SaveCharaBinFunc.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ScriptEditorUtility_050\00_ScriptEditorUtility_050.csproj" />
   </ItemGroup>
 

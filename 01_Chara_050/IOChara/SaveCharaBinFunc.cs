@@ -15,38 +15,68 @@ namespace ScriptEditor
 	//==================================================================================
 	public partial class SaveCharaBin
 	{
+#if false
+        //---------------------------------------------------------------------
+        //Compend
+        public void SaveBinCompend ( BinaryWriter bw, Chara chara, Compend cmpd )
+        {
+			//個数
+            uint nAct = (uint)cmpd.BD_Sequence.Count();
+            bw.Write(nAct);
+
+            //Sequence
+            foreach (Sequence sqc in cmpd.BD_Sequence.GetEnumerable())
+            {
+                bw.Write(sqc.Name);     //string (length , [UTF8])
+                bw.Write((uint)chara.charaset.GetIndexOfAction( sqc.ActPrm.NextActionName));
+                bw.Write((byte)sqc.ActPrm.Category);
+                bw.Write((byte)sqc.ActPrm.Posture);
+                bw.Write((byte)sqc.ActPrm.HitNum);
+                bw.Write((byte)sqc.ActPrm.HitPitch);
+                bw.Write(sqc.ActPrm.Balance);  //[int]
+                bw.Write(sqc.ActPrm.Mana);
+                bw.Write(sqc.ActPrm.Accel);
+                for ( int i = 0; i < ActionParam.VRS_SIZE; ++ i )
+                {
+                    bw.Write( sqc.ActPrm.Versatile[i] );
+                }
+
+				//各フレームリストの書き出し
+                SaveBinListFrame (bw, chara, sqc.ListScript, cmpd );
+            }
+        }
 		//---------------------------------------------------------------------
 		//behavior
-		public void SaveBinBehavior ( BinaryWriter bw, Chara chara )
-		{
-			//Action : Sequence
-			Behavior bhv = chara.charaset.behavior;
-			uint nAct = (uint)bhv.BD_Sequence.Count ();
-			bw.Write ( nAct );
-			foreach ( Action act in bhv.BD_Sequence.GetEnumerable () )
-			{
-				bw.Write ( act.Name );		//string (length , [UTF8])
-				bw.Write ( (uint)chara.GetIndexOfAction ( act.NextActionName ) ); 
-				bw.Write ( (byte)act.Category );
-				bw.Write ( (byte)act.Posture );
-				bw.Write ( (byte)act.HitNum );
-				bw.Write ( (byte)act.HitPitch );
-				bw.Write ( act.Balance );	//[int]
+		public void SaveBinBehavior(BinaryWriter bw, Chara chara)
+        {
+            //Action : Sequence
+            Behavior bhv = chara.charaset.behavior;
+            uint nAct = (uint)bhv.BD_Sequence.Count();
+            bw.Write(nAct);
+            foreach (Action act in bhv.BD_Sequence.GetEnumerable())
+            {
+                bw.Write(act.Name);     //string (length , [UTF8])
+                bw.Write((uint)chara.GetIndexOfAction(act.NextActionName));
+                bw.Write((byte)act.Category);
+                bw.Write((byte)act.Posture);
+                bw.Write((byte)act.HitNum);
+                bw.Write((byte)act.HitPitch);
+                bw.Write(act.Balance);  //[int]
 
-				bw.Write ( act.Mana );
-				bw.Write ( act.Accel );
-				for (int i = 0; i < Action.VRS_SIZE; ++ i )
-				{
-					bw.Write ( act.Versatile [ i ] );
-				}
-				
+                bw.Write(act.Mana);
+                bw.Write(act.Accel);
+                for (int i = 0; i < Action.VRS_SIZE; ++i)
+                {
+                    bw.Write(act.Versatile[i]);
+                }
 
-				SaveBinListScript ( bw, chara, act.ListScript, chara.behavior );
-			}
-		}
-		//---------------------------------------------------------------------
-		//gernish
-		public void SaveBinGarnish ( BinaryWriter bw, Chara chara )
+
+                SaveBinListScript(bw, chara, act.ListScript, chara.behavior);
+            }
+        }
+        //---------------------------------------------------------------------
+        //gernish
+        public void SaveBinGarnish ( BinaryWriter bw, Chara chara )
 		{
 			//Effect : Sequence
 			Garnish gns = chara.charaset.garnish;
@@ -59,6 +89,9 @@ namespace ScriptEditor
 			}
 		}
 
+#endif
+
+#if false
 		//---------------------------------------------------------------------
 		//Command
 		public void SaveBinCommand ( BinaryWriter bw, Chara chara )
@@ -145,6 +178,9 @@ namespace ScriptEditor
 			}
 		}
 
+#endif
+
+#if false
 		//---------------------------------------------------------------------
 		//ListFrame
 		//behaviorとgarnishでイメージインデックスの検索元が異なるので引数Compendで指定する
@@ -280,6 +316,8 @@ namespace ScriptEditor
 			bw.Write ( prm.SE_name );
 			bw.Write ( prm.VC_name );
 		}
+
+#endif
 		
 	}
 }

@@ -1,6 +1,6 @@
 ﻿
 
-namespace ScriptEditor
+namespace ScriptEditor020
 {
 	//==================================================================================
 	//
@@ -28,11 +28,12 @@ namespace ScriptEditor
 	public static class IO_CONST
 	{
 		public const uint VER = 110;
+	}
 
-#if false
 	//配列添字取得用
 	public static class IOChara 
 	{
+#if false
 		public static int AttrToInt ( Element e, int attr )
 		{
 			int i = 0;

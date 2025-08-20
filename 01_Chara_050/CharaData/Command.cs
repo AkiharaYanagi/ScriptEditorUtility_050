@@ -32,7 +32,7 @@ namespace ScriptEditor
 		public List < GK_Cmd > ListGameKeyCommand { get; } = new List < GK_Cmd > ();
 
 		//入力受付時間
-		public int LimitTime { get; set; } = 1;
+		public int LimitTime { get; set; } = 20;
 
 		
 		//@info ボタン先行受付はexe側で処理する

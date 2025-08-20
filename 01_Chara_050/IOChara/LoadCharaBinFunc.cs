@@ -369,7 +369,13 @@ namespace ScriptEditor
 				
 				brc.Name = br.ReadString ();
 				brc.Condition = (BranchCondition)br.ReadByte ();
-				brc.NameCommand = br.ReadString ();
+
+				uint NCmdNm = br.ReadUInt32 ();
+				for ( uint iCmdNm = 0; iCmdNm < NCmdNm; ++ iCmdNm )
+				{
+					brc.BD_NameCommand.Add ( new TName ( br.ReadString () ) );
+				}
+
 				uint id_cmd = br.ReadUInt32 ();
 				brc.NameSequence = br.ReadString ();
 				uint id_sqc = br.ReadUInt32 ();

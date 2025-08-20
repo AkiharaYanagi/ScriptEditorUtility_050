@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using ScriptEditor;
 
-namespace ScriptEditor
+
+
+namespace ScriptEditor020
 {
 	//--------------------------------------------
 	//	選択、スクリプト内で可能なブランチの集合

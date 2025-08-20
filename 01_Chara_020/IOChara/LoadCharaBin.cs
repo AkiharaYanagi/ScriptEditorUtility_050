@@ -1,14 +1,10 @@
-﻿using System;
-using System.Windows.Forms;
-using System.IO;
-using System.Diagnostics;
-using System.Text;
+﻿using System.Text;
 using System.Drawing;
-using System.Collections.Generic;
 using System.Drawing.Imaging;
+using ScriptEditor;
 
 
-namespace ScriptEditor
+namespace ScriptEditor020
 {
 	using BD_Img = BindingDictionary < ImageData >;
 

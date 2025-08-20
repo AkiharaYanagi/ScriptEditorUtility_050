@@ -1,12 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Runtime.CompilerServices;
+﻿using System.Drawing;
 using System.Diagnostics;
+using ScriptEditor;
 
 
-namespace ScriptEditor
+namespace ScriptEditor020
 {
 	using GK_L = GameKeyData.Lever;
 	using GK_B = GameKeyData.Button;
@@ -57,10 +54,14 @@ namespace ScriptEditor
 
 			//すべてのアクションを読み込んでから、
 			//"次アクション名" をIDからstringとして得る
-			foreach ( Action act in chara.behavior.BD_Sequence.GetEnumerable () )
+			foreach ( Action? act in chara.behavior.BD_Sequence.GetEnumerable () )
 			{
+				if ( act is null ) { continue; }
+				if ( act.NextActionName is null ) { continue; }
 				int nextActionID = GetIndex ( act.NextActionName, "Act_" );
-				act.NextActionName = chara.behavior[ nextActionID ].Name;
+				
+				if ( chara.behavior is null ) { continue; }
+				act.NextActionName = chara.behavior[ nextActionID ]!.Name;
 			}
 		}
 
@@ -90,29 +91,38 @@ namespace ScriptEditor
 			//エフェクト名の再指定
 			BindingDictionary < Sequence > bdGns = chara.garnish.BD_Sequence;
 
-			foreach ( Effect efc in chara.garnish.BD_Sequence.GetEnumerable () )
+			foreach ( Effect? efc in chara.garnish.BD_Sequence.GetEnumerable () )
 			{
-				foreach ( Script scp in efc.ListScript )
+				if ( efc is null ) {  continue; }
+				foreach ( Script? scp in efc.ListScript )
 				{
+					if ( scp is null ) { continue; }
+
 					//エフェクト名
-					foreach ( EffectGenerate efGnrt in scp.BD_EfGnrt.GetEnumerable() )
+					foreach ( EffectGenerate? efGnrt in scp.BD_EfGnrt.GetEnumerable() )
 					{
+						if ( efGnrt is null ) { continue; }
 						int idEf = GetIndex ( efGnrt.EfName, "Ef_" );
-						efGnrt.EfName = bdGns [ idEf ].Name;
+						efGnrt.EfName = bdGns [ idEf ]!.Name;
 					}
 				}
 			}
 
 			//アクションにおけるエフェクト名の再指定
-			foreach ( Action act in chara.behavior.BD_Sequence.GetEnumerable () )
+			foreach ( Action? act in chara.behavior.BD_Sequence.GetEnumerable () )
 			{
-				foreach ( Script scp in act.ListScript )
+				if ( act is null ) { continue; }
+				foreach ( Script? scp in act.ListScript )
 				{
+					if ( scp is null ) { continue; }
+
 					//エフェクト名
-					foreach ( EffectGenerate efGnrt in scp.BD_EfGnrt.GetEnumerable() )
+					foreach ( EffectGenerate? efGnrt in scp.BD_EfGnrt.GetEnumerable() )
 					{
+						if ( efGnrt is null ) { continue; }
+
 						int idEf = GetIndex ( efGnrt.EfName, "Ef_" );
-						efGnrt.EfName = bdGns [ idEf ].Name;
+						efGnrt.EfName = bdGns [ idEf ]!.Name;
 					}
 				}
 			}
@@ -402,7 +412,7 @@ namespace ScriptEditor
 					foreach ( TName t in scp.BD_RutName.GetEnumerable () )
 					{
 						int id = GetIndex ( t.Name, "Rut_" );
-						L_name.Add ( chara.BD_Route [ id ].Name );
+						L_name.Add ( chara.BD_Route [ id ]!.Name );
 					}
 
 					//クリアして再追加

@@ -20,12 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="CharaData\Chara020.cs" />
     <Compile Remove="Class1.cs" />
     <Compile Remove="IOChara\LoadChara.cs" />
-    <Compile Remove="IOChara\LoadCharaBin.cs" />
-    <Compile Remove="IOChara\LoadCharaBinFunc.cs" />
-    <Compile Remove="IOChara\LoadCharaImg.cs" />
-    <Compile Remove="IOChara\LoadCharaImg_Func.cs" />
     <Compile Remove="IOChara\LoadTextChara.cs" />
     <Compile Remove="IOChara\SaveChara.cs" />
     <Compile Remove="IOChara\SaveCharaBin.cs" />

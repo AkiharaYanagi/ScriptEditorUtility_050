@@ -67,8 +67,8 @@ namespace ScriptEditor
 			//==================================================
 			//イメージ部
 			//一回、ファイルに書き出してから追加する
-			_WriteListImage ( IOChara.GetBhvImgPath ( filepath ), chara.behavior.BD_Image );
-			_WriteListImage ( IOChara.GetGnsImgPath ( filepath ), chara.garnish.BD_Image );
+			_WriteListImage ( IOChara.GetBhvImgPath ( filepath ), chara.charaset.behavior.BD_Image );
+			_WriteListImage ( IOChara.GetGnsImgPath ( filepath ), chara.charaset.garnish.BD_Image );
 
 			//==================================================
 			//最後にまとめて.datファイルに書出
@@ -91,8 +91,8 @@ namespace ScriptEditor
 
 			//--------------------------------------------------------
 			//chara 各種データ書出
-			Utl.SaveBinBehavior ( bw, chara );	//behavior
-			Utl.SaveBinGarnish ( bw, chara );	//garnish
+			Utl.SaveBinCompend ( bw, chara, chara.charaset.behavior );	//behavior
+			Utl.SaveBinCompend ( bw, chara, chara.charaset.garnish);	//garnish
 			Utl.SaveBinCommand ( bw, chara );	//Command
 			Utl.SaveBinBranch ( bw, chara );	//Branch
 			Utl.SaveBinRoute ( bw, chara );     //Route
@@ -142,8 +142,9 @@ namespace ScriptEditor
 			bfStrm.Write ( byteNum, 0, byteNum.Length );
 
 			//実データ
-			foreach ( ImageData imgdt in bdImgdt.GetEnumerable () )
+			foreach ( ImageData? imgdt in bdImgdt.GetEnumerable () )
 			{
+				if ( imgdt is null ) { continue; }
 				_WriteImage ( bfStrm, imgdt );
 			}
 

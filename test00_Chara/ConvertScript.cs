@@ -1,0 +1,96 @@
+﻿using System;
+using System.Diagnostics;
+
+
+//2種類のCharaデータを変換する
+using ScriptEditor;
+using ScriptEditor020;
+
+
+using SE5 = ScriptEditor;
+using SE2 = ScriptEditor020;
+
+
+
+namespace test00_Chara
+{
+	internal partial class ConvertChara
+	{
+		public void ConvertScript ( SE5.Sequence sqc050, SE2.Sequence sqc020 )
+		{
+			//スクリプトからフレームに変換
+			foreach ( Script scp in sqc020.ListScript )
+			{
+				Frame frm = new Frame ();
+
+				//基本パラメータ
+				frm.N = scp.Frame;
+				frm.Group = scp.Group;
+				frm.ImgName = scp.ImgName;
+				frm.Pos = scp.Pos;
+				
+				//ルート名(TNameは 020, 050 共通)
+				frm.BD_RutName.DeepCopy ( scp.BD_RutName );
+
+				//判定枠
+				//ディープコピー(Rectangleは値型)
+				frm.ListCRect = scp.ListCRect.Select ( r => r ).ToList ();
+				frm.ListHRect = scp.ListHRect.Select ( r => r ).ToList ();
+				frm.ListARect = scp.ListARect.Select ( r => r ).ToList ();
+				frm.ListORect = scp.ListORect.Select ( r => r ).ToList ();
+
+				//エフェクト生成
+				foreach ( SE2.EffectGenerate? efgnrt2 in scp.BD_EfGnrt.GetEnumerable () )
+				{
+					if ( efgnrt2 != null ) { continue; }
+
+					SE5.EffectGenerate efgnrt5 = new SE5.EffectGenerate ();
+					efgnrt5.Name = efgnrt2!.Name;
+					efgnrt5.EfName = efgnrt2.EfName;
+					efgnrt5.Pt = efgnrt2.Pt;
+					efgnrt5.Z_PER100F = efgnrt2.Z_PER100F;
+					efgnrt5.Gnrt = efgnrt2.Gnrt;
+					efgnrt5.Loop = efgnrt2.Loop;
+					efgnrt5.Sync = efgnrt2.Sync;
+
+					efgnrt5.GnrtCnd = Generate_Condition.COMPULSION;
+
+					frm.BD_EfGnrt.Add ( efgnrt5 );
+				}
+
+				//バトルパラメータ
+				FrameParam_Battle BtlPrm = new FrameParam_Battle ();
+				BtlPrm.CalcState = (SE5.CLC_ST) scp.BtlPrm.CalcState;
+				BtlPrm.Vel = scp.BtlPrm.Vel;
+				BtlPrm.Acc = scp.BtlPrm.Acc;
+				BtlPrm.Power = scp.BtlPrm.Power;
+				BtlPrm.Warp = scp.BtlPrm.Warp;
+				BtlPrm.Recoil_I = scp.BtlPrm.Recoil_I;
+				BtlPrm.Recoil_E = scp.BtlPrm.Recoil_E;
+				BtlPrm.Blance_I = scp.BtlPrm.Blance_I;
+				BtlPrm.Blance_E = scp.BtlPrm.Blance_E;
+				BtlPrm.DirectDamage = scp.BtlPrm.DirectDamage;
+
+
+				//演出パラメータ
+				FrameParam_Staging StgPrm = new FrameParam_Staging ();
+				StgPrm.BlackOut = scp.StgPrm.BlackOut;
+				StgPrm.Vibration = scp.StgPrm.Vibration;
+				StgPrm.Stop = scp.StgPrm.Stop;
+				StgPrm.Rotate = scp.StgPrm.Rotate;
+				StgPrm.Rotate_center = scp.StgPrm.Rotate_center;
+				StgPrm.AfterImage_N = scp.StgPrm.AfterImage_N;
+				StgPrm.AfterImage_time = scp.StgPrm.AfterImage_time;
+				StgPrm.AfterImage_pitch = scp.StgPrm.AfterImage_pitch;
+				StgPrm.Vibration_S = scp.StgPrm.Vibration_S;
+				//新規 StgPrm.SE_GnrtCnd;
+				StgPrm.SE_name = scp.StgPrm.SE_name;
+				//新規 StgPrm.VC_GnrtCnd;
+				StgPrm.VC_name = scp.StgPrm.VC_name;
+
+
+				sqc050.ListScript.Add ( frm );
+			}
+		}
+	}
+}

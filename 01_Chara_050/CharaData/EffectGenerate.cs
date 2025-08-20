@@ -25,6 +25,8 @@ namespace ScriptEditor
 		public bool Gnrt { get; set; } = true;		//生成(または非生成で繰返)
 		public bool Loop { get; set; } = false;		//ループ
 		public bool Sync { get; set; } = false;		//位置同期
+		public Generate_Condition GnrtCnd { get; set; } = Generate_Condition.COMPULSION;	//発生条件
+
 
 		public EffectGenerate ()
 		{

@@ -61,7 +61,7 @@
 		END,	//シークエンス終了時
 		DASH,	//ダッシュ相殺
 
-		//他、特殊フラグをゲームメインで設定できる
+		//他、[0-15]で特殊フラグをゲームメインで設定できる
 		FLG_0, FLG_1, FLG_2, FLG_3, FLG_4, FLG_5, FLG_6, FLG_7, 
 		FLG_8, FLG_9, FLG_10, FLG_11, FLG_12, FLG_13, FLG_14, FLG_15, 
 	}
@@ -72,4 +72,11 @@
 		NumRect = 8,
 	}
 
+	//発生条件
+	public enum Generate_Condition
+	{
+		HIT,		//ヒット時
+		GUARD,		//ガード時
+		COMPULSION,	//空振り時(強制発生)
+	}
 }
