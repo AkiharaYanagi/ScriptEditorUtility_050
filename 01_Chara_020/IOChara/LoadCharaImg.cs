@@ -1,10 +1,10 @@
 ﻿using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
-using ScriptEditor;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor020
+namespace Chara020
 {
 	using BD_Img = BindingDictionary < ImageData >;
 

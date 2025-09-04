@@ -4,9 +4,10 @@ using System.IO;
 using System.Text;
 using System.Drawing.Imaging;
 using System.Drawing;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
 	using Utl = SaveCharaBin_Util;
 	using BD_ImgDt = BindingDictionary < ImageData >;

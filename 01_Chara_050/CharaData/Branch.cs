@@ -1,6 +1,7 @@
-﻿
+﻿using ScriptEditorUtility;
 
-namespace ScriptEditor
+
+namespace Chara050
 {
 	//------------------------------------------------
 	//	各種条件によるスクリプト分岐

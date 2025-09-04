@@ -1,6 +1,7 @@
-﻿
+﻿using ScriptEditorUtility;
 
-namespace ScriptEditor
+
+namespace Chara050
 {
 	//================================================================
 	//	<シークエンス>		各フレーム毎のスクリプトをリスト状に持つ

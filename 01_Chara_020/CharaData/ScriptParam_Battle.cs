@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 
 
-namespace ScriptEditor020
+namespace Chara020
 {
 	//スクリプトにおけるパラメータ(戦闘)
 	//================================================================

@@ -1,9 +1,10 @@
 ﻿using System.Drawing;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
 	using GK_L = GameKeyData.Lever;
 	using GK_B = GameKeyData.Button;

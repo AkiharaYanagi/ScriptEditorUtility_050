@@ -1,7 +1,8 @@
-﻿
+﻿using ScriptEditorUtility;
 using System.Drawing;
 
-namespace ScriptEditor
+
+namespace Chara050
 {
 	//==================================================================================
 	//	LoadCharaBin_Frm

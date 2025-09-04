@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.Diagnostics;
-using ScriptEditor;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor020
+namespace Chara020
 {
 	using GK_L = GameKeyData.Lever;
 	using GK_B = GameKeyData.Button;
@@ -396,7 +396,7 @@ namespace ScriptEditor020
 
 					Branch? brc = chara.BD_Branch [ (int)brc_id ];
 
-					TName t = new TName ( brc.Name );
+					TName t = new TName ( brc!.Name );
 					rut.BD_BranchName.Add ( t );
 				}
 

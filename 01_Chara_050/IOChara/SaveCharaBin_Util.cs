@@ -2,9 +2,10 @@
 using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
 	//==================================================================================
 	//	SaveCharaBin_Util
@@ -209,11 +210,22 @@ namespace ScriptEditor
 				bw.Write ( frm.Group );
 
 				//出力
-//				Debug.Write ( "" + scp.Group + ",");
+				//				Debug.Write ( "" + scp.Group + ",");
 
 
 				//イメージインデックス
-				uint imgIndex = (uint)cmp.BD_Image.IndexOf ( frm.ImgName );
+				uint imgIndex = 0;
+#if false
+				try
+				{
+					imgIndex = (uint) cmp.BD_Image.IndexOf ( frm.ImgName );
+				}
+				catch
+				{
+					imgIndex = UInt32.MaxValue;
+				}
+
+#endif
 				bw.Write ( (uint)imgIndex );
 
 				//イメージ名 [utf-8]

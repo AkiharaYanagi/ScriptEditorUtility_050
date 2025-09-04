@@ -1,7 +1,8 @@
-﻿using System.ComponentModel;
+﻿using ScriptEditorUtility;
+using System.ComponentModel;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
 	//イメージを名前で検索する
 	// 検索用ディクショナリと表示用バインディングリストを持つ

@@ -1,10 +1,10 @@
 ﻿using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
-using ScriptEditor;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor020
+namespace Chara020
 {
 	using BD_Img = BindingDictionary < ImageData >;
 
@@ -30,7 +30,8 @@ namespace ScriptEditor020
 
 			try
 			{
-				_Load ( filepath, chara );
+				//_Load ( filepath, chara );
+				_Load_without_Image ( filepath, chara );
 			}
 			catch ( ArgumentException e )
 			{
@@ -208,5 +209,68 @@ namespace ScriptEditor020
 		}
 
 #endif
+
+
+
+
+
+		//Test Imageを除く
+		//対象ファイルを読み込みキャラデータをバイナリから変換
+		private void _Load_without_Image ( string filepath, Chara chara )
+		{
+			//ファイルが存在しないとき何もしない
+			if ( !File.Exists ( filepath ) )
+			{
+				//MessageBox.Show ( filepath + "が見つかりません", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				STS_TXT.Trace_Err ( filepath + "が見つかりません" );
+				throw new ArgumentException ( "ファイルが存在しませんでした。" );
+			}
+
+			//拡張子確認
+			if ( Path.GetExtension ( filepath ).CompareTo ( ".dat" ) != 0 )
+			{
+				//MessageBox.Show ( filepath + "は拡張子が.datと異なります。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
+				throw new ArgumentException ( "拡張子が.datと異なります。" );
+			}
+
+			//初期化
+			chara.Clear ();
+
+
+			//ファイルストリーム開始
+			using ( var fstrm = new FileStream ( filepath, FileMode.Open, FileAccess.Read ) )
+			using ( var br = new BinaryReader ( fstrm, Encoding.UTF8 ) )
+			{
+				//				Debug.WriteLine ( "fstrm.Length = " + fstrm.Length );
+
+				//バージョン(uint)
+				uint ver = br.ReadUInt32 ();
+
+				//サイズ(uint)
+				uint size = br.ReadUInt32 ();
+
+				//キャラデータ
+				LoadBinBehavior ( br, chara );
+				LoadBinGarnish ( br, chara );
+				LoadBinCommand ( br, chara );
+				LoadBinBranch ( br, chara );
+				LoadBinRoute ( br, chara );
+
+#if false
+				//ビヘイビア
+				string imgfile_bhv = IOChara.GetBhvImgPath ( filepath );
+				string imgdir_bhv = IOChara.GetBhvImgDir ( filepath );
+				LoadImage ( imgfile_bhv, imgdir_bhv, br, chara.behavior.BD_Image );
+				//ガーニッシュ
+				string imgfile_gns = IOChara.GetGnsImgPath ( filepath );
+				string imgdir_gns = IOChara.GetGnsImgDir ( filepath );
+				LoadImage ( imgfile_gns, imgdir_gns, br, chara.garnish.BD_Image );
+#endif
+			}   //using
+
+		}
+
+
+
 	}
 }

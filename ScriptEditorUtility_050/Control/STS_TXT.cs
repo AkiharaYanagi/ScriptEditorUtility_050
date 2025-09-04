@@ -2,7 +2,8 @@
 using System.Drawing;
 using System.Xml.Serialization;
 
-namespace ScriptEditor
+
+namespace ScriptEditorUtility
 {
 	public static class STS_TXT
 	{

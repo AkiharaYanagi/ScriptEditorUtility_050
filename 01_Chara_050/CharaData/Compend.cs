@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
 	using BD_SQC = BindingDictionary < Sequence >;
 	using BL_SQC = BindingList < Sequence? >;

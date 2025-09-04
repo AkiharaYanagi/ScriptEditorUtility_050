@@ -1,8 +1,9 @@
-﻿
+﻿using ScriptEditorUtility;
 using System.Drawing;
 using System.Runtime.InteropServices.Marshalling;
 
-namespace ScriptEditor
+
+namespace Chara050
 {
     using BD_Sqc = BindingDictionary < Sequence >;
 

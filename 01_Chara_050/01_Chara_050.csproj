@@ -5,6 +5,7 @@
     <RootNamespace>_01_Chara_050</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <BaseOutputPath>..\Dll\</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

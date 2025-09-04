@@ -1,5 +1,8 @@
-﻿
-namespace ScriptEditor
+﻿//=============================================================
+// 名前(string)を持つインターフェースINameの実行用継承クラス
+//=============================================================
+
+namespace ScriptEditorUtility
 {
 	public interface IName
 	{

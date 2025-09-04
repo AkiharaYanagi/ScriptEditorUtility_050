@@ -1,11 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Reflection.Metadata.Ecma335;
+﻿using System.ComponentModel;
 
 
-namespace ScriptEditor
+namespace ScriptEditorUtility
 {
 	//=============================================================
 	// 表示用バインディングリストと検索用ディクショナリを持つデータ構造

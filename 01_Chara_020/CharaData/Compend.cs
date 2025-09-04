@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
-using ScriptEditor;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor020
+namespace Chara020
 {
 	using BD_SQC = BindingDictionary < Sequence >;
 	using BL_SQC = BindingList < Sequence? >;
@@ -130,7 +130,7 @@ namespace ScriptEditor020
 	public class Garnish : Compend
 	{
 		//Effect型指定 インデクサ
-		public ScriptEditor020.Effect? this [ int i ]
+		public Chara020.Effect? this [ int i ]
         {
             set { base.BD_Sequence.GetBindingList()[i] = value; }
             get => BD_Sequence.GetBindingList()[i] as Effect;

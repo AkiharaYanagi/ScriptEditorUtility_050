@@ -1,6 +1,7 @@
-﻿
+﻿using ScriptEditorUtility;
 
-namespace ScriptEditor
+
+namespace Chara050
 {
 	//--------------------------------------------
 	//	選択、スクリプト内で可能なブランチの集合

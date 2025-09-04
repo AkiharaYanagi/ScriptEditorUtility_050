@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Text;
 using System.Drawing.Imaging;
 using System.Drawing;
-using System.ComponentModel;
-using System.Drawing.Design;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
 	using Utl = SaveCharaBin_Util;
 	using BD_ImgDt = BindingDictionary < ImageData >;

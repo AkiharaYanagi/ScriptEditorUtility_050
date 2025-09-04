@@ -1,8 +1,7 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using ScriptEditorUtility;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
     public class ActionParam
     {

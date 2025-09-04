@@ -1,4 +1,4 @@
-﻿namespace ScriptEditor020
+﻿namespace Chara020
 {
 	//アクション属性 定義
 	public enum ActionCategory

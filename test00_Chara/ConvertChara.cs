@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
+using ScriptEditorUtility;
 
 
 //2種類のCharaデータを変換する
-using ScriptEditor;
-using ScriptEditor020;
+using Chara020;
+using Chara050;
 
 
-using SE5 = ScriptEditor;
-using SE2 = ScriptEditor020;
+using SE2 = Chara020;
+using SE5 = Chara050;
 
-using BD_SQC2 = ScriptEditor.BindingDictionary<ScriptEditor020.Sequence>;
-using BD_SQC5 = ScriptEditor.BindingDictionary<ScriptEditor.Sequence>;
+using BD_SQC2 = ScriptEditorUtility.BindingDictionary<Chara020.Sequence>;
+using BD_SQC5 = ScriptEditorUtility.BindingDictionary<Chara050.Sequence>;
 
 
 
@@ -20,9 +21,9 @@ namespace test00_Chara
     internal partial class ConvertChara
     {
 
-        public ScriptEditor.Chara Convert ( ScriptEditor020.Chara chara020 )
+        public Chara050.Chara Convert ( Chara020.Chara chara020 )
         {
-			ScriptEditor.Chara chara050 = new ScriptEditor.Chara ();
+			Chara050.Chara chara050 = new Chara050.Chara ();
 
 			Debug.WriteLine ( "■■■■■■■■■■■■■■■■■■■■■■■■■■■■■" );
 			Debug.WriteLine ( "Convert." );

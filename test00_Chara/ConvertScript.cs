@@ -3,12 +3,12 @@ using System.Diagnostics;
 
 
 //2種類のCharaデータを変換する
-using ScriptEditor;
-using ScriptEditor020;
+using Chara020;
+using Chara050;
 
 
-using SE5 = ScriptEditor;
-using SE2 = ScriptEditor020;
+using SE2 = Chara020;
+using SE5 = Chara050;
 
 
 
@@ -42,7 +42,7 @@ namespace test00_Chara
 				//エフェクト生成
 				foreach ( SE2.EffectGenerate? efgnrt2 in scp.BD_EfGnrt.GetEnumerable () )
 				{
-					if ( efgnrt2 != null ) { continue; }
+					if ( efgnrt2 is null ) { continue; }
 
 					SE5.EffectGenerate efgnrt5 = new SE5.EffectGenerate ();
 					efgnrt5.Name = efgnrt2!.Name;

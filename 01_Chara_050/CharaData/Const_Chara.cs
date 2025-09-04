@@ -1,4 +1,6 @@
-﻿namespace ScriptEditor
+﻿
+
+namespace Chara050
 {
 	//アクション属性 定義
 	public enum ActionCategory
@@ -78,5 +80,12 @@
 		HIT,		//ヒット時
 		GUARD,		//ガード時
 		COMPULSION,	//空振り時(強制発生)
+	}
+
+	//描画モード
+	public enum Draw_Mode
+	{
+		NORMAL,		//通常
+		SCREEN,		//スクリーン
 	}
 }

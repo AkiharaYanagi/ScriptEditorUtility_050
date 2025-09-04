@@ -1,8 +1,8 @@
 ﻿using System.Drawing;
-using ScriptEditor;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor020
+namespace Chara020
 {
 	//イメージと名前を持つ
 	// INameを継承し、BindingDictionaryで扱う

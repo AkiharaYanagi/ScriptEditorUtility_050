@@ -1,7 +1,7 @@
-﻿using ScriptEditor;
+﻿using ScriptEditorUtility;
 
 
-namespace ScriptEditor020
+namespace Chara020
 {
 	//------------------------------------------------------------------
 	//	コマンド　クラス

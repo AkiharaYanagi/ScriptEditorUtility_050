@@ -1,6 +1,8 @@
 using System.Diagnostics;
-using ScriptEditor020;
+using Chara020;
+using Chara050;
 using test00_Chara;
+using ScriptEditorUtility;
 
 
 namespace ScriptEditor
@@ -14,6 +16,7 @@ namespace ScriptEditor
 
 			//ステータスラベル
 			STS_TXT.Tssl = toolStripStatusLabel1;
+			STS_TXT.Trace ( "開始." );
 		}
 
 		public void Do ( string filepath )
@@ -21,14 +24,15 @@ namespace ScriptEditor
 			//データ変換
 
 			//旧キャラデータ020 を Load
-			ScriptEditor020.Chara chara020 = new ScriptEditor020.Chara ();
-			ScriptEditor020.LoadCharaBin lcb020 = new ScriptEditor020.LoadCharaBin ();
+			Chara020.Chara chara020 = new Chara020.Chara ();
+			Chara020.LoadCharaBin lcb020 = new Chara020.LoadCharaBin ();
 			lcb020.Do ( filepath, chara020 );
 
 			STS_TXT.Trace ( "Convert 開始." );
+
 			//新規キャラデータ050 に Convert
 			ConvertChara cvtCh = new ConvertChara ();
-			ScriptEditor.Chara chara050 = cvtCh.Convert ( chara020 );
+			Chara050.Chara chara050 = cvtCh.Convert ( chara020 );
 
 			Debug.WriteLine ( "chara050.behavior : " + chara050.charaset.behavior.BD_Sequence.Count ().ToString () );
 			Debug.WriteLine ( "chara050.garnish : " + chara050.charaset.garnish.BD_Sequence.Count ().ToString () );
@@ -36,11 +40,28 @@ namespace ScriptEditor
 			Debug.WriteLine ( "chara020.Command : " + chara020.BD_Command.Count ().ToString () );
 			Debug.WriteLine ( "chara050.Command : " + chara050.charaset.BD_Command.Count ().ToString () );
 
-			STS_TXT.Trace ( "Test 開始." );
+			Debug.WriteLine ( "chara020.Branch : " + chara020.BD_Branch.Count ().ToString () );
+			Debug.WriteLine ( "chara050.Branch : " + chara050.charaset.BD_Branch.Count ().ToString () );
+
+			Debug.WriteLine ( "chara020.Route : " + chara020.BD_Route.Count ().ToString () );
+			Debug.WriteLine ( "chara050.Route : " + chara050.charaset.BD_Route.Count ().ToString () );
+
+#if false
 			//test Chara
+			STS_TXT.Trace ( "Test 開始." );
 			TestChara testChara = new TestChara ();
 			testChara.Test ( chara050 );
 
+#endif
+
+
+			//書出
+			STS_TXT.Trace ( "Save 開始." );
+			Chara050.SaveCharaBin scb050 = new SaveCharaBin ();
+			string? fileDir = Path.GetDirectoryName ( filepath );
+			string? filename050 = Path.GetFileNameWithoutExtension ( filepath );
+			scb050.Do ( fileDir + "\\" + filename050 + "050.dat", chara050 );
+			STS_TXT.Trace ( "Save 終了." );
 		}
 
 		protected override void OnDragEnter ( DragEventArgs drgevent )

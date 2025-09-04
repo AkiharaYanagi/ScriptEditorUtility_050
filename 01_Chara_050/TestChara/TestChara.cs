@@ -1,9 +1,7 @@
-﻿using System;
-using System.Diagnostics;
-using System.Reflection.Metadata;
+﻿using System.Diagnostics;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
     public class TestChara
     {

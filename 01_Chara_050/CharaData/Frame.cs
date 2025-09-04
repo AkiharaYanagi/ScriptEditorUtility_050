@@ -1,7 +1,8 @@
-﻿using System.Drawing;
+﻿using ScriptEditorUtility;
+using System.Drawing;
 
 
-namespace ScriptEditor
+namespace Chara050
 {
 	using BD_Tn = BindingDictionary < TName >;
 	using BD_EfGn = BindingDictionary < EffectGenerate >;

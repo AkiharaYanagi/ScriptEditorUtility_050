@@ -1,9 +1,9 @@
 ﻿using System.Drawing;
 using System.Diagnostics;
-using ScriptEditor;
+using ScriptEditorUtility;
 
 
-namespace ScriptEditor020
+namespace Chara020
 {
 	using GK_L = GameKeyData.Lever;
 	using GK_B = GameKeyData.Button;
@@ -393,9 +393,9 @@ namespace ScriptEditor020
 						brc_id = 0;
 					}
 
-					Branch brc = chara.BD_Branch [ (int)brc_id ];
+					Branch? brc = chara.BD_Branch [ (int)brc_id ];
 
-					TName t = new TName ( brc.Name );
+					TName t = new TName ( brc!.Name );
 					rut.BD_BranchName.Add ( t );
 				}
 
@@ -403,14 +403,21 @@ namespace ScriptEditor020
 			}
 
 			//スクリプトにおけるルート名の再設定
-			foreach ( Action act in chara.behavior.BD_Sequence.GetEnumerable () )
+			foreach ( Action? act in chara.behavior.BD_Sequence.GetEnumerable () )
 			{
-				foreach ( Script scp in act.ListScript )
+				if ( act is null ) { continue; }
+
+				foreach ( Script? scp in act.ListScript )
 				{
+					if ( scp is null  ) { continue; }
+
+
 					//名前だけのリストを作成
 					List < string > L_name = new List<string> ();
-					foreach ( TName t in scp.BD_RutName.GetEnumerable () )
+					foreach ( TName? t in scp.BD_RutName.GetEnumerable () )
 					{
+						if ( t is null ) { continue ; }
+
 						int id = GetIndex ( t.Name, "Rut_" );
 						L_name.Add ( chara.BD_Route [ id ]!.Name );
 					}

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 
 
-namespace ScriptEditor
+namespace ScriptEditorUtility
 {
 	public static class FormUtility
 	{
@@ -59,15 +55,17 @@ namespace ScriptEditor
 		}
 		
 		//指定パスをエクスプローラで開く
-		public static void OpenDir ( string path )
+		public static void OpenDir ( string? path )
 		{
+			if ( path == null ) { return; }
 			Process.Start ( "Explorer.exe", @path );
 		}
 
 		//==============================================================
 		//上のディレクトリ
-		public static string UpDir ( string path )
+		public static string UpDir ( string? path )
 		{
+			if ( path is null ) { return ""; }
 			return path.Substring ( 0, path.LastIndexOf ( @"\" ) + 1 );
 		}
 
@@ -75,8 +73,9 @@ namespace ScriptEditor
 		//ステータスバー表示
 		public static ToolStripStatusLabel ToolStripStatusLabel { get; set; } = new ToolStripStatusLabel ();
 
-		public static void Trace ( string str )
+		public static void Trace ( string? str )
 		{
+			if ( str == null ) { return; }
 			ToolStripStatusLabel.Text = str;
 		}
 

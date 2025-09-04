@@ -1,16 +1,15 @@
-﻿using System;
+﻿using ScriptEditorUtility;
 
-using SE5 = ScriptEditor;
-using SE2 = ScriptEditor020;
+using SE2 = Chara020;
+using SE5 = Chara050;
 
+using GKD_LVR_2 = Chara020.GameKeyData.Lever;
+using GKD_BTN_2 = Chara020.GameKeyData.Button;
+using GKD_STT_2 = Chara020.GameKeyData.GameKeyState;
 
-using GKD_LVR_2 = ScriptEditor020.GameKeyData.Lever;
-using GKD_BTN_2 = ScriptEditor020.GameKeyData.Button;
-using GKD_STT_2 = ScriptEditor020.GameKeyData.GameKeyState;
-
-using GKD_LVR_5 = ScriptEditor.GameKeyData.Lever;
-using GKD_BTN_5 = ScriptEditor.GameKeyData.Button;
-using GKD_STT_5 = ScriptEditor.GameKeyData.GameKeyState;
+using GKD_LVR_5 = Chara050.GameKeyData.Lever;
+using GKD_BTN_5 = Chara050.GameKeyData.Button;
+using GKD_STT_5 = Chara050.GameKeyData.GameKeyState;
 
 
 namespace test00_Chara
@@ -22,8 +21,10 @@ namespace test00_Chara
 		{
 			foreach ( SE2.Command? cmd2 in ch020.BD_Command.GetEnumerable () )
 			{
-				SE5.Command cmd5 = new SE5.Command ();
 				if (  cmd2 is null ) { continue; }
+
+				//新規コマンド
+				SE5.Command cmd5 = new SE5.Command ();
 
 				//名前
 				cmd5.Name = cmd2.Name;
@@ -65,6 +66,18 @@ namespace test00_Chara
 			foreach ( SE2.Branch? brc2 in ch020.BD_Branch.GetEnumerable () )
 			{
 				if (  brc2 is null ) { continue; }
+
+				//新規ブランチ
+				SE5.Branch brc5 = new SE5.Branch ();
+
+				brc5.Name = brc2.Name;
+				brc5.Condition = (SE5.BranchCondition)brc2.Condition;
+				brc5.BD_NameCommand.Add ( new TName ( brc2.NameCommand ) );
+				brc5.NameSequence = brc2.NameSequence;
+				brc5.Frame = brc2.Frame;
+				brc5.Other = brc2.Other;
+
+				ch050.charaset.BD_Branch.Add ( brc5 );
 			}
 
 		}
@@ -75,6 +88,19 @@ namespace test00_Chara
 			foreach ( SE2.Route? rut2 in ch020.BD_Route.GetEnumerable () )
 			{
 				if ( rut2 is null ) { continue; }
+
+				//新規ルート
+				SE5.Route rut5 = new SE5.Route ();
+
+				rut5.Name = rut2.Name;
+				rut5.Summary = rut2.Summary;
+				foreach ( TName? tn in rut2.BD_BranchName.GetEnumerable () )
+				{
+					if ( tn is null ) { continue; }
+					rut5.BD_BranchName.Add ( tn );
+				}
+
+				ch050.charaset.BD_Route.Add ( rut5 );
 			}
 		}
 

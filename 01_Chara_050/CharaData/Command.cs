@@ -1,7 +1,8 @@
-﻿
-namespace ScriptEditor
+﻿using ScriptEditorUtility;
+
+
+namespace Chara050
 {
-    using ScriptEditor;
     //------------------------------------------------------------------
     //	コマンド　クラス
     //		ゲーム入力キーの配列をフレーム毎における特定の組み合わせで保持する
