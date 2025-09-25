@@ -61,19 +61,23 @@ namespace Chara050
 			//chara 各種データ書出
 			Utl.SaveBinCompend ( bw, chara, chara.charaset.behavior );	//behavior
 			Utl.SaveBinCompend ( bw, chara, chara.charaset.garnish );	//garnish
+			
 			Utl.SaveBinCommand ( bw, chara );	//Command
 			Utl.SaveBinBranch ( bw, chara );	//Branch
 			Utl.SaveBinRoute ( bw, chara );     //Route
+
+			Utl.SaveBinListTName ( bw, chara.charaset.BD_SE, chara );     //SE
+			Utl.SaveBinListTName ( bw, chara.charaset.BD_VC, chara );     //VC
 
 			long script_size = ms.Length; 
 
 			//--------------------------------------------------------
 
 
-#if false
 			//イメージ部
-			WriteListImage ( bw, chara.behavior.BD_Image );
-			WriteListImage ( bw, chara.garnish.BD_Image );
+			WriteListImage ( bw, chara.charaset.behavior.BD_Image );
+			WriteListImage ( bw, chara.charaset.garnish.BD_Image );
+#if false
 #endif
 			//イメージ部
 			//一回、imgファイルに書き出してから追加する
@@ -177,8 +181,6 @@ namespace Chara050
 				long lnGns = fsGns.Length;
 				fsGns.CopyTo ( bwFl );
 			}
-#if false
-#endif
 
 			}	//using
 
@@ -192,43 +194,15 @@ namespace Chara050
 			using ( FileStream fStrm = new FileStream ( path, FileMode.Create ) )
 			using ( BufferedStream bfStrm = new BufferedStream ( fStrm ) )
 			{
-
-			//イメージ個数
-			uint uiCnt = (uint)bdImg.Count ();
-			byte [] byteNum = BitConverter.GetBytes ( uiCnt );
-			bfStrm.Write ( byteNum, 0, byteNum.Length );
-
+				//イメージ個数
+				uint uiCnt = (uint)bdImg.Count ();
+				byte [] byteNum = BitConverter.GetBytes ( uiCnt );
+				bfStrm.Write ( byteNum, 0, byteNum.Length );
 
 				//実データ
 				foreach (ImageData? imgdt in bdImg.GetEnumerable ())
 				{
 					if ( imgdt is null ) { continue; }
-
-#if false
-				//イメージを一時領域に書出
-				using ( MemoryStream msImg = new MemoryStream () )
-				{			
-				//名前
-				bw.Write ( id.Name );		//string (length , [UTF8])
-
-				//------------
-				//@info 先にメモリに書き出してmsImg.Lengthにサイズを記録する
-				//実データ
-				id.Img.Save ( msImg, ImageFormat.Png );
-
-				//サイズ
-				bw.Write ( (uint)msImg.Length );
-
-				msImg.Seek ( 0, SeekOrigin.Begin );
-				while ( ( numBytes = msImg.Read ( buffer, 0, size ) ) > 0 )
-				{ 
-					bw.Write ( buffer, 0, numBytes );
-				}
-
-				}	//using
-				bw.Flush ();	//一時書出
-
-#endif
 
 					_WriteImage ( bfStrm, imgdt );
 				}
@@ -267,47 +241,20 @@ namespace Chara050
 
 
 
-
 		private void WriteListImage ( BinaryWriter bw, BD_ImgDt bdImg )
 		{
 			//イメージ個数
 			bw.Write ( (uint)bdImg.Count() );
-
 
 			//実データ
 			foreach ( ImageData? id in bdImg.GetEnumerable () )
 			{
                 if ( id is null) { continue; }
 
-#if false
-				//イメージを一時領域に書出
-				using ( MemoryStream msImg = new MemoryStream () )
-				{			
-				//名前
-				bw.Write ( id.Name );		//string (length , [UTF8])
-
-				//------------
-				//@info 先にメモリに書き出してmsImg.Lengthにサイズを記録する
-				//実データ
-				id.Img.Save ( msImg, ImageFormat.Png );
-
-				//サイズ
-				bw.Write ( (uint)msImg.Length );
-
-				msImg.Seek ( 0, SeekOrigin.Begin );
-				while ( ( numBytes = msImg.Read ( buffer, 0, size ) ) > 0 )
-				{ 
-					bw.Write ( buffer, 0, numBytes );
-				}
-
-				}	//using
-				bw.Flush ();	//一時書出
-
-#endif
-
                 WriteImage( bw, id );
 			}
 		}
+
 
 		private void WriteImage ( BinaryWriter bw, ImageData id  )
 		{

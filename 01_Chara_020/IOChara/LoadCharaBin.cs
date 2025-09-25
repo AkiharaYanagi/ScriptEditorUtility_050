@@ -30,8 +30,11 @@ namespace Chara020
 
 			try
 			{
-				//_Load ( filepath, chara );
+#if true
+				_Load ( filepath, chara );
+#else
 				_Load_without_Image ( filepath, chara );
+#endif
 			}
 			catch ( ArgumentException e )
 			{

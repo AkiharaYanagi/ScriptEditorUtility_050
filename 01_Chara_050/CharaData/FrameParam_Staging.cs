@@ -20,6 +20,16 @@ namespace Chara050
 		//------
 		//演出(個別)
 
+		//残像
+		public int AfterImage_N { get; set; } = 0;		//残像[個]
+		public int AfterImage_time { get; set; } = 0;	//残像[F] 持続
+		public int AfterImage_pitch { get; set; } = 0;	//残像[F] pitch
+
+		//その他
+		public int Vibration_S { get; set; } = 0;		//振動[F](個別)
+		public Color Color { get; set; } = Color.White;	//色調変更
+		public int Color_time { get; set; } = 0;		//色調変更[F] 持続
+
 		//回転
 		public int Rotate { get; set; } = 0;		//回転[rad]
 		public Point Rotate_center = new Point ();	//回転中心位置
@@ -27,14 +37,7 @@ namespace Chara050
 		public void SetRotate_centerX ( int x ) { Rotate_center = new Point ( x, Rotate_center.Y ); }
 		public void SetRotate_centerY ( int y ) { Rotate_center = new Point ( Rotate_center.X, y ); }
 		
-		//残像
-		public int AfterImage_N { get; set; } = 0;		//残像[個]
-		public int AfterImage_time { get; set; } = 0;	//残像[F] 持続
-		public int AfterImage_pitch { get; set; } = 0;	//残像[F] pitch
-
-		public int Vibration_S { get; set; } = 0;		//振動[F](個別)
-		public Color Color { get; set; } = Color.White;	//色調変更
-		public int Color_time { get; set; } = 0;		//色調変更[F] 持続
+		public float Omega { get; set; } = 0;	//角速度[rad/F];
 
 		//拡大
 		public Point Scaling { get; set; } = new Point ();	//拡大縮小 1/100
@@ -43,9 +46,11 @@ namespace Chara050
 		public void SetScalingY ( int y ) { Scaling = new Point ( Scaling.X, y ); }
 		
 		public Point Scaling_Center { get; set; } = new Point ();
-		public void ScalingCenter ( int x, int y ) { Scaling_Center = new Point( x, y ); }	//拡大中心
+		public void SetScaling_Center ( int x, int y ) { Scaling_Center = new Point( x, y ); }  //拡大中心
 
-		
+#if false
+		//->Frame内に移項
+
 		//SE, VC
 		//public int SE { get; set; } = 0;    //SE指定
 
@@ -54,6 +59,7 @@ namespace Chara050
 
 		public Generate_Condition VC_GnrtCnd = Generate_Condition.COMPULSION;	//発生条件
 		public string VC_name = "";	//音声指定
+#endif
 
 
 		//================================================================
@@ -70,20 +76,18 @@ namespace Chara050
 			Vibration = src.Vibration;
 			Stop = src.Stop;
 
-			Rotate = src.Rotate;
-			Rotate_center = src.Rotate_center;
 			AfterImage_pitch = src.AfterImage_pitch;
 			AfterImage_N = src.AfterImage_N;
 			AfterImage_time = src.AfterImage_time;
 			Vibration_S = src.Vibration_S;
 			Color = src.Color;
 			Color_time = src.Color_time;
-			Scaling = src.Scaling;
 
-			SE_GnrtCnd = src.SE_GnrtCnd;
-			SE_name = new string(src.SE_name.ToCharArray());
-			VC_GnrtCnd = src.VC_GnrtCnd;
-			VC_name = new string(src.VC_name.ToCharArray());
+			Rotate = src.Rotate;
+			Rotate_center = src.Rotate_center;
+			Omega = src.Omega;
+			Scaling = src.Scaling;
+			Scaling_Center = src.Scaling_Center;
 		}
 
 		//初期化
@@ -93,20 +97,18 @@ namespace Chara050
 			Vibration = 0;
 			Stop = 0;
 
-			Rotate = 0;
-			Rotate_center = new Point ( 0, 0 );
 			AfterImage_pitch = 0;
 			AfterImage_N = 0;
 			AfterImage_time = 0;
 			Vibration_S = 0;
 			Color = new Color ();
 			Color_time = 0;
-			Scaling = new Point ( 0, 0 );
 
-			SE_GnrtCnd = Generate_Condition.COMPULSION;
-			SE_name = "";	//SE名指定
-			VC_GnrtCnd = Generate_Condition.COMPULSION;
-			VC_name = "";	//音声指定
+			Rotate = 0;
+			Rotate_center = new Point ( 0, 0 );
+			Omega = 0;
+			Scaling = new Point ( 0, 0 );
+			Scaling_Center = new Point ( 0, 0 );
 		}
 
 		//コピー
@@ -116,18 +118,18 @@ namespace Chara050
 			Vibration = src.Vibration;
 			Stop = src.Stop;
 
-			Rotate = src.Rotate;
-			Rotate_center = src.Rotate_center;
 			AfterImage_pitch = src.AfterImage_pitch;
 			AfterImage_N = src.AfterImage_N;
 			AfterImage_time = src.AfterImage_time;
 			Vibration_S = src.Vibration_S;
 			Color = src.Color;
 			Color_time = src.Color_time;
-			Scaling = src.Scaling;
 
-			SE_name = new string ( src.SE_name.ToCharArray () );
-			VC_name = new string ( src.VC_name.ToCharArray () );
+			Rotate = src.Rotate;
+			Rotate_center = src.Rotate_center;
+			Omega = src.Omega;
+			Scaling = src.Scaling;
+			Scaling_Center = src.Scaling_Center;
 		}
 
 		//クローン

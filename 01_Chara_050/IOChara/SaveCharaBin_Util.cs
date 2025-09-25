@@ -1,12 +1,19 @@
-﻿using System;
-using System.IO;
-using System.Drawing;
+﻿using ScriptEditorUtility;
+
+using System;
 using System.Collections.Generic;
-using ScriptEditorUtility;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 
 namespace Chara050
 {
+	using BD_EfGnrt = BindingDictionary<EffectGenerate>;
+	using BD_Gnrt = BindingDictionary<Generator>;
+	using BD_T = BindingDictionary<TName>;
+
+
 	//==================================================================================
 	//	SaveCharaBin_Util
 	//		外部関数
@@ -143,9 +150,13 @@ namespace Chara050
 			{
 				if ( brc is null ) { continue; }
 
-				bw.Write ( brc.Name );		//string (length , [UTF8])
-				bw.Write ( (byte)brc.Condition );	//enum -> byte
+				// 名前
+				bw.Write ( brc.Name );      //string (length , [UTF8])
 
+				//条件 定数
+				bw.Write ( (byte)brc.Condition );   //enum -> byte
+
+				//条件　コマンド名（複数）
 				uint n = (uint)brc.BD_NameCommand.Count();
                 bw.Write ( n );
 				foreach (TName? tn in brc.BD_NameCommand.GetEnumerable())
@@ -154,11 +165,16 @@ namespace Chara050
 
 					bw.Write ( tn.Name );		//string (length , [UTF8])
 					bw.Write ( (uint)chara.charaset.GetIndexOfCommand (tn.Name) );	//int -> uint
-				}			
-				
+				}
+
+				//遷移先　シークエンス名
 				bw.Write ( brc.NameSequence );		//string (length , [UTF8])
-				bw.Write ( (uint)chara.charaset.GetIndexOfAction ( brc.NameSequence ) );	//int -> uint
-				bw.Write ( (uint)brc.Frame );	//int -> byte
+				bw.Write ( (uint)chara.charaset.GetIndexOfAction ( brc.NameSequence ) );    //int -> uint
+
+				//遷移先　フレーム指定
+				bw.Write ( (uint)brc.Frame );   //int -> byte
+
+				//条件 同一アクション以外
 				bw.Write ( brc.Other );
 			}
 
@@ -209,13 +225,8 @@ namespace Chara050
 				//グループ
 				bw.Write ( frm.Group );
 
-				//出力
-				//				Debug.Write ( "" + scp.Group + ",");
-
-
 				//イメージインデックス
 				uint imgIndex = 0;
-#if false
 				try
 				{
 					imgIndex = (uint) cmp.BD_Image.IndexOf ( frm.ImgName );
@@ -224,8 +235,6 @@ namespace Chara050
 				{
 					imgIndex = UInt32.MaxValue;
 				}
-
-#endif
 				bw.Write ( (uint)imgIndex );
 
 				//イメージ名 [utf-8]
@@ -251,19 +260,12 @@ namespace Chara050
 				SaveBinListRect ( bw, frm.ListORect );
 
 				//エフェクト生成
-				bw.Write ( (uint)frm.BD_EfGnrt.Count () );	//個数[byte]
-				foreach ( EffectGenerate? efGnrt in frm.BD_EfGnrt.GetEnumerable () )
-				{ 
-					if ( efGnrt is null ) { continue; }
+				SaveBinListEfGnrt ( bw, frm.BD_EfGnrt, chara );
 
-					bw.Write ( (uint)chara.charaset.GetIndexOfEffect ( efGnrt.EfName ) );	//uint
-					bw.Write ( efGnrt.Pt.X );	//int
-					bw.Write ( efGnrt.Pt.Y );	//int
-					bw.Write ( efGnrt.Z_PER100F );		//int
-					bw.Write ( efGnrt.Gnrt );	//bool
-					bw.Write ( efGnrt.Loop );	//bool
-					bw.Write ( efGnrt.Sync );	//bool
-				}
+				//SE生成
+				SaveBinListGnrt ( bw, frm.BD_SEGnrt, chara );
+				//VC生成
+				SaveBinListGnrt ( bw, frm.BD_VCGnrt, chara );
 
 				//バトルパラメータ
 				SaveBinScrPrmBtl ( bw, frm );
@@ -284,36 +286,115 @@ namespace Chara050
 		public static void SaveBinListRect ( BinaryWriter bw, List < Rectangle > listRect )
 		{
 			//上限は固定 ConstChara.NumRect = 8
-			//それ以下は０からの可変
 			byte nRect = (byte)listRect.Count;
 			bw.Write ( nRect ); 
 			foreach ( Rectangle rct in listRect )
 			{
-				bw.Write ( rct.Left );
-				bw.Write ( rct.Top );
-				bw.Write ( rct.Right );
-				bw.Write ( rct.Bottom );
+				bw.Write ( rct.Left );		//int
+				bw.Write ( rct.Top );		//int
+				bw.Write ( rct.Right );		//int
+				bw.Write ( rct.Bottom );    //int
 			}
 		}
 
-        //---------------------------------------------------------------------
-        //FrameParam_Battle
-        public static void SaveBinScrPrmBtl ( BinaryWriter bw, Frame frm )
+		//---------------------------------------------------------------------
+		//エフェクト生成
+		public static void SaveBinListEfGnrt ( BinaryWriter bw, BD_EfGnrt bd_EfGnrt, Chara chara )
 		{
-            FrameParam_Battle prm = frm.BtlPrm;
-//			int i = (int)prm.CalcState ;
+			bw.Write ( (uint) bd_EfGnrt.Count () ); //個数[byte]
+			foreach ( EffectGenerate? efGnrt in bd_EfGnrt.GetEnumerable () )
+			{
+				if ( efGnrt is null ) { continue; }
+
+				bw.Write ( efGnrt.Name );   //string
+				bw.Write ( efGnrt.EfName ); //string
+				bw.Write ( (uint) chara.charaset.GetIndexOfEffect ( efGnrt.EfName ) );  //uint
+
+				bw.Write ( efGnrt.Pt.X );       //int
+				bw.Write ( efGnrt.Pt.Y );       //int
+				bw.Write ( efGnrt.Z_PER100F );  //int
+				bw.Write ( efGnrt.Gnrt );       //bool
+				bw.Write ( efGnrt.Sync );       //bool
+
+				bw.Write ( (int) efGnrt.GnrtCnd );  //int
+				bw.Write ( (int) efGnrt.DrawMode ); //int
+
+				bw.Write ( efGnrt.Loop );           //int
+				bw.Write ( efGnrt.DeleteOut );      //bool
+				bw.Write ( efGnrt.DeleteCount );    //int
+
+				bw.Write ( efGnrt.Rotate );     //float 4byte, Little Endian
+				bw.Write ( efGnrt.Rotate_Center.X );     //int
+				bw.Write ( efGnrt.Rotate_Center.Y );     //int
+
+//				bw.Write ( efGnrt.NextEfName ); //string
+				bw.Write ( "Next" ); //string
+			}
+		}
+
+		//---------------------------------------------------------------------
+		//BD_Gnrt
+		public static void SaveBinListGnrt ( BinaryWriter bw, BD_Gnrt bd_gnrt, Chara chara )
+		{
+			bw.Write ( (uint) bd_gnrt.Count () );
+			foreach ( Generator? gnrt in bd_gnrt.GetEnumerable () )
+			{
+				if ( gnrt is null ) { continue; }
+				//IDを記録
+				//bw.Write ( (uint) chara.charaset.GetIndexOfRoute ( tn.Name ) );
+
+				bw.Write ( gnrt.Name );         //名前
+				bw.Write ( (int) gnrt.Gnrt_cnd );     //条件
+				bw.Write ( (int) gnrt.Group );     //条件
+			}
+
+		}
+
+		//---------------------------------------------------------------------
+		//BD_T
+		public static void SaveBinListTName ( BinaryWriter bw, BD_T bd_t, Chara chara )
+		{
+			bw.Write ( (uint) bd_t.Count () );
+			foreach ( TName? tn in bd_t.GetEnumerable () )
+			{
+				if ( tn is null ) { bw.Write ( "" ); continue; }
+				//IDを記録
+				//bw.Write ( (uint) chara.charaset.GetIndexOfRoute ( tn.Name ) );
+
+				//名前を記録
+				bw.Write ( tn.Name );
+			}
+
+		}
+
+		//---------------------------------------------------------------------
+		//FrameParam_Battle
+		public static void SaveBinScrPrmBtl ( BinaryWriter bw, Frame frm )
+		{
+			FrameParam_Battle prm = frm.BtlPrm;
 			bw.Write ( (int)prm.CalcState );
+
 			bw.Write ( prm.Vel.X );
 			bw.Write ( prm.Vel.Y );
 			bw.Write ( prm.Acc.X );
 			bw.Write ( prm.Acc.Y );
-			bw.Write ( prm.Power );
-			bw.Write ( prm.Warp );
+
+//			bw.Write ( prm.Power );
+			bw.Write ( 123456 );
+			bw.Write ( prm.DirectDamage_I );
+			bw.Write ( prm.DirectDamage_E );
+
 			bw.Write ( prm.Recoil_I );
 			bw.Write ( prm.Recoil_E );
 			bw.Write ( prm.Blance_I );
 			bw.Write ( prm.Blance_E );
-			bw.Write ( prm.DirectDamage );
+			bw.Write ( prm.Gauge_I );
+			bw.Write ( prm.Gauge_E );
+
+			bw.Write ( prm.Warp_I );
+			bw.Write ( prm.Warp_E );
+			bw.Write ( prm.GuardWarp_I );
+			bw.Write ( prm.GuardWarp_E );
 		}
 
         //---------------------------------------------------------------------
@@ -324,20 +405,23 @@ namespace Chara050
 			bw.Write ( (byte)prm.BlackOut );
 			bw.Write ( (byte)prm.Vibration );
 			bw.Write ( (byte)prm.Stop );
-			bw.Write ( prm.Rotate );
-			bw.Write ( prm.Rotate_center.X );
-			bw.Write ( prm.Rotate_center.Y );
+
 			bw.Write ( (byte)prm.AfterImage_N );
 			bw.Write ( (byte)prm.AfterImage_time );
 			bw.Write ( (byte)prm.AfterImage_pitch );
 			bw.Write ( (byte)prm.Vibration_S );
 			bw.Write ( (uint)prm.Color.ToArgb () );
 			bw.Write ( (byte)prm.Color_time );
+
+			bw.Write ( prm.Rotate );
+			bw.Write ( prm.Rotate_center.X );
+			bw.Write ( prm.Rotate_center.Y );
+			bw.Write ( prm.Omega );				//float
 			bw.Write ( prm.Scaling.X );
 			bw.Write ( prm.Scaling.Y );
-			bw.Write ( prm.SE_name );
-			bw.Write ( prm.VC_name );
+			bw.Write ( prm.Scaling_Center.X );
+			bw.Write ( prm.Scaling_Center.Y );
 		}
-		
+
 	}
 }

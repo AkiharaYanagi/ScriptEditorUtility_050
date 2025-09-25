@@ -99,14 +99,17 @@ namespace Chara050
                 //すべて読みこんでから名前の再指定
                 AssignName_NextSqc(bhv.BD_Sequence);
                 AssignName_NextSqc(gns.BD_Sequence);
-                AssignName_EfGnrt(bhv.BD_Sequence, gns);
-                AssignName_EfGnrt(gns.BD_Sequence, gns);
+                //AssignName_EfGnrt(bhv.BD_Sequence, gns);
+                //AssignName_EfGnrt(gns.BD_Sequence, gns);
 				
 
 				//他データ
                 LoadBinCommand( br, chara );
 				LoadBinBranch ( br, chara );
 				LoadBinRoute ( br, chara );
+
+				LoadBinListTName ( br, chara.charaset.BD_SE );
+				LoadBinListTName ( br, chara.charaset.BD_VC );
 
 
 				//画像データ
@@ -125,8 +128,8 @@ namespace Chara050
 				LoadImage ( imgfile_gns, imgdir_gns, br, chara.garnish.BD_Image );
 #endif
 
-			}	//using
-		
+			}   //using
+
 		}
 
 

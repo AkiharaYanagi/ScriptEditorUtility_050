@@ -60,8 +60,15 @@ namespace ScriptEditor
 			Chara050.SaveCharaBin scb050 = new SaveCharaBin ();
 			string? fileDir = Path.GetDirectoryName ( filepath );
 			string? filename050 = Path.GetFileNameWithoutExtension ( filepath );
-			scb050.Do ( fileDir + "\\" + filename050 + "050.dat", chara050 );
+			string savefilepath = fileDir + "\\" + filename050 + "050.dat";
+			scb050.Do ( savefilepath, chara050 );
 			STS_TXT.Trace ( "Save 終了." );
+
+
+			//読込テスト
+			Chara050.Chara ch_load = new Chara050.Chara ();
+			Chara050.LoadCharaBin lcb050 = new Chara050.LoadCharaBin ();
+			lcb050.Do ( savefilepath, ch_load );
 		}
 
 		protected override void OnDragEnter ( DragEventArgs drgevent )

@@ -44,49 +44,66 @@ namespace test00_Chara
 				{
 					if ( efgnrt2 is null ) { continue; }
 
-					SE5.EffectGenerate efgnrt5 = new SE5.EffectGenerate ();
-					efgnrt5.Name = efgnrt2!.Name;
-					efgnrt5.EfName = efgnrt2.EfName;
-					efgnrt5.Pt = efgnrt2.Pt;
-					efgnrt5.Z_PER100F = efgnrt2.Z_PER100F;
-					efgnrt5.Gnrt = efgnrt2.Gnrt;
-					efgnrt5.Loop = efgnrt2.Loop;
-					efgnrt5.Sync = efgnrt2.Sync;
-
-					efgnrt5.GnrtCnd = Generate_Condition.COMPULSION;
+					SE5.EffectGenerate efgnrt5 = new SE5.EffectGenerate ()
+					{
+						Name = efgnrt2.Name,
+						EfName = efgnrt2.EfName,
+						Pt = efgnrt2.Pt,
+						Z_PER100F = efgnrt2.Z_PER100F,
+						Gnrt = efgnrt2.Gnrt,
+						Sync = efgnrt2.Sync,
+						GnrtCnd = Generate_Condition.COMPULSION,
+						DrawMode = Draw_Mode.NORMAL,
+						Loop = 1,
+						DeleteOut = true,
+						DeleteCount = 0,
+						Rotate = 0,
+						Rotate_Center = new Point ( 0, 0 ),
+						NextEfName = "",
+					};
 
 					frm.BD_EfGnrt.Add ( efgnrt5 );
 				}
 
 				//バトルパラメータ
-				FrameParam_Battle BtlPrm = new FrameParam_Battle ();
+				FrameParam_Battle BtlPrm = frm.BtlPrm;
 				BtlPrm.CalcState = (SE5.CLC_ST) scp.BtlPrm.CalcState;
-				BtlPrm.Vel = scp.BtlPrm.Vel;
-				BtlPrm.Acc = scp.BtlPrm.Acc;
+				BtlPrm.Vel = new Point ( scp.BtlPrm.Vel.X, scp.BtlPrm.Vel.Y );
+				BtlPrm.Acc = new Point ( scp.BtlPrm.Acc.X, scp.BtlPrm.Acc.Y );
+
 				BtlPrm.Power = scp.BtlPrm.Power;
-				BtlPrm.Warp = scp.BtlPrm.Warp;
+				BtlPrm.DirectDamage_I = 0;
+				BtlPrm.DirectDamage_E = scp.BtlPrm.DirectDamage;
+
 				BtlPrm.Recoil_I = scp.BtlPrm.Recoil_I;
 				BtlPrm.Recoil_E = scp.BtlPrm.Recoil_E;
 				BtlPrm.Blance_I = scp.BtlPrm.Blance_I;
 				BtlPrm.Blance_E = scp.BtlPrm.Blance_E;
-				BtlPrm.DirectDamage = scp.BtlPrm.DirectDamage;
+				BtlPrm.Gauge_I = 0;
+				BtlPrm.Gauge_E = 0;
 
+				BtlPrm.Warp_I = 0;
+				BtlPrm.Warp_E = scp.BtlPrm.Warp;
+				BtlPrm.GuardWarp_I = 0;
+				BtlPrm.GuardWarp_E = 0;
+				
+				
 
 				//演出パラメータ
-				FrameParam_Staging StgPrm = new FrameParam_Staging ();
+				FrameParam_Staging StgPrm = frm.StgPrm;
 				StgPrm.BlackOut = scp.StgPrm.BlackOut;
 				StgPrm.Vibration = scp.StgPrm.Vibration;
 				StgPrm.Stop = scp.StgPrm.Stop;
-				StgPrm.Rotate = scp.StgPrm.Rotate;
-				StgPrm.Rotate_center = scp.StgPrm.Rotate_center;
+
 				StgPrm.AfterImage_N = scp.StgPrm.AfterImage_N;
 				StgPrm.AfterImage_time = scp.StgPrm.AfterImage_time;
 				StgPrm.AfterImage_pitch = scp.StgPrm.AfterImage_pitch;
 				StgPrm.Vibration_S = scp.StgPrm.Vibration_S;
-				//新規 StgPrm.SE_GnrtCnd;
-				StgPrm.SE_name = scp.StgPrm.SE_name;
-				//新規 StgPrm.VC_GnrtCnd;
-				StgPrm.VC_name = scp.StgPrm.VC_name;
+
+				StgPrm.Rotate = scp.StgPrm.Rotate;
+				StgPrm.Rotate_center = new Point ( scp.StgPrm.Rotate_center.X, scp.StgPrm.Rotate_center.Y );
+				StgPrm.Scaling = new Point ( scp.StgPrm.Scaling.X, scp.StgPrm.Scaling.Y );
+				StgPrm.Scaling_Center = new Point ( 0, 0 );
 
 
 				sqc050.ListScript.Add ( frm );

@@ -7,6 +7,8 @@ namespace Chara050
 	using BD_Tn = BindingDictionary < TName >;
 	using BD_EfGn = BindingDictionary < EffectGenerate >;
 	using LsRect = List < Rectangle >;
+	using BD_Gnrt = BindingDictionary < Generator >;
+
 
 	//================================================================
 	//	◆スクリプト		キャラにおけるアクションの１フレームの値
@@ -76,6 +78,12 @@ namespace Chara050
 		//エフェクト生成
 		//------------------------------------------------
 		public BD_EfGn BD_EfGnrt { get; set; } = new BD_EfGn ();
+
+		//SE 生成
+		public BD_Gnrt BD_SEGnrt { get; set; } = new BD_Gnrt ();
+		//VC 生成
+		public BD_Gnrt BD_VCGnrt { get; set; } = new BD_Gnrt ();
+
 
 		//------------------------------------------------
 		//　各パラメータ

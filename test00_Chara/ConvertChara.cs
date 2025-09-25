@@ -14,6 +14,9 @@ using SE5 = Chara050;
 using BD_SQC2 = ScriptEditorUtility.BindingDictionary<Chara020.Sequence>;
 using BD_SQC5 = ScriptEditorUtility.BindingDictionary<Chara050.Sequence>;
 
+using BD_IMG2 = ScriptEditorUtility.BindingDictionary<Chara020.ImageData>;
+using BD_IMG5 = ScriptEditorUtility.BindingDictionary<Chara050.ImageData>;
+
 
 
 namespace test00_Chara
@@ -34,12 +37,14 @@ namespace test00_Chara
 			var bd_act_020 = chara020.behavior.BD_Sequence;
             var bd_act_050 = chara050.charaset.behavior.BD_Sequence;
 			ConvertBehavior ( bd_act_020, bd_act_050 );
+			ConvertImage ( chara020.behavior.BD_Image, chara050.charaset.behavior.BD_Image );
 
 			//--------------------------------------------------
 			//garnish
 			var bd_gns_020 = chara020.garnish.BD_Sequence;
 			var bd_gns_050 = chara050.charaset.garnish.BD_Sequence;
 			ConvertGarnish ( bd_gns_020, bd_gns_050 );
+			ConvertImage ( chara020.garnish.BD_Image, chara050.charaset.garnish.BD_Image );
 
 			//--------------------------------------------------
 			//Command
@@ -120,6 +125,24 @@ namespace test00_Chara
 
 				//シークエンスを追加
 				bd_gns_050.Add ( efc050 );
+			}
+		}
+
+		public void ConvertImage ( BD_IMG2 bdimg2, BD_IMG5 bdimg5 )
+		{
+			foreach ( SE2.ImageData? imgdt2 in bdimg2.GetEnumerable () )
+			{
+				if ( imgdt2 is null ) { continue; }
+
+				SE5.ImageData imgdt5 = new SE5.ImageData ();
+
+				imgdt5.Img = imgdt2.Img;
+				imgdt5.Path = imgdt2.Path;
+				imgdt5.Img_file = imgdt2.Img_file;
+				imgdt5.Thumbnail = imgdt2.Thumbnail;
+				imgdt5.Name = imgdt2.Name;
+
+				bdimg5.Add ( imgdt5 );
 			}
 		}
 

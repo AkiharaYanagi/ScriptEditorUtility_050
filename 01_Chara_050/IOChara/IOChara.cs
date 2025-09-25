@@ -78,7 +78,8 @@ namespace Chara050
 		{
 			string? fileDir = Path.GetDirectoryName ( filepath );
 			string? filename = Path.GetFileNameWithoutExtension ( filepath );
-			return fileDir + "\\img\\" + filename + ".scp";
+//			return fileDir + "\\img\\" + filename + ".scp";
+			return fileDir + "\\" + filename + ".scp";
 		}
 
 		public static string GetBhvImgPath ( string filepath )
