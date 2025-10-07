@@ -48,8 +48,12 @@ namespace ScriptEditorUtility
 		{
 			//既存コンポーネント初期化
 			InitializeComponent ();
-			//デザイナ外コンポーネント初期化
-			InitCmpnt ();
+
+			if ( ! this.DesignMode )
+			{
+				//デザイナ外コンポーネント初期化
+				InitCmpnt ();
+			}
 
 
 			Tb_Name.Text = "Name";
