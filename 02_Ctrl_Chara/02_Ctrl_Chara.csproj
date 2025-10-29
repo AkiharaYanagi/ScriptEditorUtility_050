@@ -11,12 +11,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="00_ScriptEditorUtility_050">
-      <HintPath>..\Dll\Release\net8.0-windows10.0.26100.0\00_ScriptEditorUtility_050.dll</HintPath>
-    </Reference>
-    <Reference Include="01_Chara_050">
-      <HintPath>..\Dll\Release\net8.0-windows10.0.26100.0\01_Chara_050.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\01_Chara_020\01_Chara_020.csproj" />
+    <ProjectReference Include="..\01_Chara_050\01_Chara_050.csproj" />
+    <ProjectReference Include="..\ScriptEditorUtility_050\00_ScriptEditorUtility_050.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -9,7 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ScriptEditorUtility_050\00_ScriptEditorUtility_050.csproj" />
+    <ProjectReference Include="..\01_Chara_020\01_Chara_020.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="00_ScriptEditorUtility_050">
+      <HintPath>..\Dll\Debug\net8.0-windows10.0.26100.0\00_ScriptEditorUtility_050.dll</HintPath>
+    </Reference>
+    <Reference Include="01_Chara_050">
+      <HintPath>..\Dll\Debug\net8.0-windows10.0.26100.0\01_Chara_050.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -379,8 +379,8 @@ namespace Chara050
 			bw.Write ( prm.Acc.X );
 			bw.Write ( prm.Acc.Y );
 
-//			bw.Write ( prm.Power );
-			bw.Write ( 123456 );
+			bw.Write ( prm.Power );
+//test			bw.Write ( 123456 );
 			bw.Write ( prm.DirectDamage_I );
 			bw.Write ( prm.DirectDamage_E );
 

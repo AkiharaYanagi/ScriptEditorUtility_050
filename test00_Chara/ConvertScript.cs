@@ -106,6 +106,28 @@ namespace test00_Chara
 				StgPrm.Scaling_Center = new Point ( 0, 0 );
 
 
+				//◆ SE
+				Generator gnrtSE = new Generator ()
+				{
+					Name = scp.StgPrm.SE_name,
+					Gnrt_cnd = Generate_Condition.COMPULSION,
+					Group = 0,
+				};
+				frm.BD_SEGnrt.Add ( gnrtSE );
+
+
+				//◆ VC
+				Generator gnrtVC = new Generator ()
+				{
+					Name = scp.StgPrm.VC_name,
+					Gnrt_cnd = Generate_Condition.COMPULSION,
+					Group = 0,
+				};
+				frm.BD_VCGnrt.Add ( gnrtVC );
+
+
+
+				//フレームを追加
 				sqc050.ListScript.Add ( frm );
 			}
 		}
