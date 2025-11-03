@@ -47,6 +47,7 @@ namespace Chara050
 		//--------------------------------------------------------------------
 		//表示
 		//--------------------------------------------------------------------
+		public UInt32 ImgIndex { get; set; } = UInt32.MaxValue;
 		//表示画像 名前指定
 		public string ImgName { get; set; } = "ImgName.png";
 
@@ -110,7 +111,8 @@ namespace Chara050
 		{
             N = s.N;
             Group = s.Group;
-            ImgName = s.ImgName;
+			ImgIndex = s.ImgIndex;
+			ImgName = s.ImgName;
             Pos = s.Pos;
 
 //			this.BD_RutName = new BindingDictionary<TName> ();
@@ -134,6 +136,7 @@ namespace Chara050
 		{
 			N = 0;
 			Group = 0;
+			ImgIndex = UInt32.MaxValue;
 			ImgName = "Clear";
 			Pos = new Point ();
 
@@ -157,7 +160,8 @@ namespace Chara050
             N = s.N;
 
             Group = s.Group;
-            ImgName = s.ImgName;
+			ImgIndex = s.ImgIndex;
+			ImgName = s.ImgName;
             Pos = s.Pos;
             BD_RutName.DeepCopy ( s.BD_RutName );
             ListCRect = new LsRect( s.ListCRect );
@@ -179,7 +183,8 @@ namespace Chara050
             //this.Frame = s.Frame;
 
             Group = s.Group;
-            ImgName = s.ImgName;
+			ImgIndex = s.ImgIndex;
+			ImgName = s.ImgName;
             Pos = s.Pos;
             BD_RutName.DeepCopy ( s.BD_RutName );
             ListCRect = new LsRect( s.ListCRect );
@@ -211,6 +216,7 @@ namespace Chara050
 
 			if (N != s.N ) { return false; }
 			if (Group != s.Group ) { return false; }
+			if (ImgIndex != s.ImgIndex ) { return false; }
 			if (ImgName != s.ImgName ) { return false; }
 			if (Pos != s.Pos ) { return false; }
 			if ( !BD_RutName.SequenceEqual ( s.BD_RutName ) ) { return false; }

@@ -45,6 +45,8 @@ namespace Chara020
 		//--------------------------------------------------------------------
 		//表示
 		//--------------------------------------------------------------------
+		public UInt32 ImgIndex { get; set; } = UInt32.MaxValue;
+
 		//表示画像 名前指定
 		public string ImgName { get; set; } = "ImgName.png";
 
@@ -102,6 +104,7 @@ namespace Chara020
 		{
 			this.Frame = s.Frame;
 			this.Group = s.Group;
+			this.ImgIndex = s.ImgIndex;
 			this.ImgName = s.ImgName;
 			this.Pos = s.Pos;
 
@@ -126,6 +129,7 @@ namespace Chara020
 		{
 			Frame = 0;
 			Group = 0;
+			ImgIndex = UInt32.MaxValue;
 			ImgName = "Clear";
 			Pos = new Point ();
 
@@ -149,6 +153,7 @@ namespace Chara020
 			this.Frame = s.Frame;
 
 			this.Group = s.Group;
+			this.ImgIndex = s.ImgIndex;
 			this.ImgName = s.ImgName;
 			this.Pos = s.Pos;
 			this.BD_RutName.DeepCopy ( s.BD_RutName );
@@ -171,6 +176,7 @@ namespace Chara020
 			//this.Frame = s.Frame;
 
 			this.Group = s.Group;
+			this.ImgIndex = s.ImgIndex;
 			this.ImgName = s.ImgName;
 			this.Pos = s.Pos;
 			this.BD_RutName.DeepCopy ( s.BD_RutName );
@@ -203,6 +209,7 @@ namespace Chara020
 
 			if ( this.Frame != s.Frame ) { return false; }
 			if ( this.Group != s.Group ) { return false; }
+			if ( this.ImgIndex != s.ImgIndex ) { return false; }
 			if ( this.ImgName != s.ImgName ) { return false; }
 			if ( this.Pos != s.Pos ) { return false; }
 			if ( ! this.BD_RutName.SequenceEqual ( s.BD_RutName ) ) { return false; }

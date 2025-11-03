@@ -26,6 +26,7 @@ namespace test00_Chara
 				//基本パラメータ
 				frm.N = scp.Frame;
 				frm.Group = scp.Group;
+				frm.ImgIndex = scp.ImgIndex;
 				frm.ImgName = scp.ImgName;
 				frm.Pos = scp.Pos;
 				
@@ -107,24 +108,31 @@ namespace test00_Chara
 
 
 				//◆ SE
-				Generator gnrtSE = new Generator ()
+				//指定があれば追加
+				if ( scp.StgPrm.SE_name != "" )
 				{
-					Name = scp.StgPrm.SE_name,
-					Gnrt_cnd = Generate_Condition.COMPULSION,
-					Group = 0,
-				};
-				frm.BD_SEGnrt.Add ( gnrtSE );
+					Generator gnrtSE = new Generator ()
+					{
+						Name = scp.StgPrm.SE_name,
+						Gnrt_cnd = Generate_Condition.ALL,
+						Group = 0,
+					};
+					frm.BD_SEGnrt.Add ( gnrtSE );
+				}
 
 
 				//◆ VC
-				Generator gnrtVC = new Generator ()
-				{
-					Name = scp.StgPrm.VC_name,
-					Gnrt_cnd = Generate_Condition.COMPULSION,
-					Group = 0,
-				};
-				frm.BD_VCGnrt.Add ( gnrtVC );
-
+				//指定があれば追加
+				if ( scp.StgPrm.VC_name != "" )
+				{ 
+					Generator gnrtVC = new Generator ()
+					{
+						Name = scp.StgPrm.VC_name,
+						Gnrt_cnd = Generate_Condition.ALL,
+						Group = 0,
+					};
+					frm.BD_VCGnrt.Add ( gnrtVC );
+				}	
 
 
 				//フレームを追加

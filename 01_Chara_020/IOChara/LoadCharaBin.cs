@@ -216,11 +216,32 @@ namespace Chara020
 
 
 
+		public void Do_scp ( string filepath, Chara chara )
+		{
+			STS_TXT.Trace ( "読込開始" );
+
+			try
+			{
+				_Load_without_Image ( filepath, chara );
+			}
+			catch ( ArgumentException e )
+			{
+				//空データ
+				chara = new Chara ();
+
+				ErrMsg = "LoadChara : 読込データが不適正です\n" + e.Message + "\n" + e.StackTrace;
+			}
+
+			STS_TXT.Trace ( "◆◆ 読込完了" );
+
+			ErrMsg = "Load OK.";
+		}
 
 		//Test Imageを除く
 		//対象ファイルを読み込みキャラデータをバイナリから変換
 		private void _Load_without_Image ( string filepath, Chara chara )
 		{
+#if false
 			//ファイルが存在しないとき何もしない
 			if ( !File.Exists ( filepath ) )
 			{
@@ -235,6 +256,8 @@ namespace Chara020
 				//MessageBox.Show ( filepath + "は拡張子が.datと異なります。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error );
 				throw new ArgumentException ( "拡張子が.datと異なります。" );
 			}
+
+#endif
 
 			//初期化
 			chara.Clear ();

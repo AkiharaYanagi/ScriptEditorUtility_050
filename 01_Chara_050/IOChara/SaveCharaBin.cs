@@ -301,5 +301,147 @@ namespace Chara050
 
 			}	//using
 		}
+
+
+
+		public void Do_withoutImage ( string filepath, Chara chara )
+		{
+			try
+			{
+				_Save_withoutImage ( filepath, chara );
+			}
+			catch ( ArgumentException e )
+			{
+				Debug.WriteLine ( e );
+			}
+		}
+		private void _Save_withoutImage ( string filepath, Chara chara )
+		{
+			string dir = Directory.GetCurrentDirectory ();
+			Debug.WriteLine ( dir );
+
+			//データが無かったら何もしない
+			if ( chara == null ) { return; }
+
+			//一時メモリストリーム
+			using ( MemoryStream ms = new MemoryStream () )
+			using ( BinaryWriter bw = new BinaryWriter ( ms, Encoding.UTF8 ) )
+			{
+
+				//--------------------------------------------------------
+				//chara 各種データ書出
+				Utl.SaveBinCompend ( bw, chara, chara.charaset.behavior );  //behavior
+				Utl.SaveBinCompend ( bw, chara, chara.charaset.garnish );   //garnish
+
+				Utl.SaveBinCommand ( bw, chara );   //Command
+				Utl.SaveBinBranch ( bw, chara );    //Branch
+				Utl.SaveBinRoute ( bw, chara );     //Route
+
+				Utl.SaveBinListTName ( bw, chara.charaset.BD_SE, chara );     //SE
+				Utl.SaveBinListTName ( bw, chara.charaset.BD_VC, chara );     //VC
+
+				long script_size = ms.Length;
+
+				//--------------------------------------------------------
+
+
+#if false
+				//イメージ部
+				WriteListImage ( bw, chara.charaset.behavior.BD_Image );
+				WriteListImage ( bw, chara.charaset.garnish.BD_Image );
+#endif
+
+#if false
+				//イメージ部
+				//一回、imgファイルに書き出してから追加する
+				string img_bhv_path = IOChara.GetBhvImgPath ( filepath );
+				_WriteListImage ( img_bhv_path, chara.charaset.behavior.BD_Image );
+
+				string img_gns_path = IOChara.GetGnsImgPath ( filepath );
+				_WriteListImage ( img_gns_path, chara.charaset.garnish.BD_Image );
+#endif
+
+
+				//--------------------------------------------------------
+				//スクリプト部書出
+				bw.Flush ();
+
+				//long ms_pos = ms.Position;
+				string scppath = IOChara.GetScpPath ( filepath );
+				string? scpdir = Path.GetDirectoryName ( scppath );
+				if ( scpdir is not null )
+				{
+					Directory.CreateDirectory ( scpdir );
+				}
+
+				using ( FileStream fs = new FileStream ( scppath, FileMode.Create, FileAccess.Write ) )
+				using ( BufferedStream bwFl = new BufferedStream ( fs ) )
+				{
+					//バージョン(uint)
+					byte [] byte_VER = BitConverter.GetBytes ( IO_CONST.VER );
+					bwFl.Write ( byte_VER, 0, byte_VER.Length );
+
+					//サイズ(uint)4,294,967,296[byte]まで
+#if false
+					FileInfo fI_bhv = 0;
+					FileInfo fI_gns = 0;
+					uint mem_size = (uint) ( ms.Length + fI_bhv.Length + fI_gns.Length );
+
+#endif
+					uint mem_size = (uint) ( ms.Length );
+					byte [] byte_Length = BitConverter.GetBytes ( mem_size );
+					bwFl.Write ( byte_Length, 0, byte_Length.Length );
+
+					ms.Seek ( 0, SeekOrigin.Begin );
+					ms.CopyTo ( bwFl );
+
+				}   //using FileStream
+
+				//ms.Seek ( ms_pos, SeekOrigin.Begin );
+
+#if false
+				//最後にファイルに書出
+				using ( FileStream fs = new FileStream ( filepath, FileMode.Create, FileAccess.Write ) )
+				using ( BufferedStream bwFl = new BufferedStream ( fs ) )
+				{
+
+					//バージョン(uint)
+					byte [] byte_VER = BitConverter.GetBytes ( IO_CONST.VER );
+					bwFl.Write ( byte_VER, 0, byte_VER.Length );
+
+					//サイズ(uint)4,294,967,296[byte]まで
+					FileInfo fI_bhv = new FileInfo ( img_bhv_path );
+					FileInfo fI_gns = new FileInfo ( img_gns_path );
+					uint mem_size = (uint) ( ms.Length + fI_bhv.Length + fI_gns.Length );
+					byte [] byte_Length = BitConverter.GetBytes ( mem_size );
+					bwFl.Write ( byte_Length, 0, byte_Length.Length );
+
+					//メモリストリーム
+					ms.Seek ( 0, SeekOrigin.Begin );
+					//			bwFl.Write ( ms.ToArray(), 0, (int)ms.Length );
+					ms.CopyTo ( bwFl );
+
+
+					//イメージファイルから追加
+					using ( FileStream fsBhv = new FileStream ( img_bhv_path, FileMode.Open ) )
+					{
+						long lnBhv = fsBhv.Length;
+						fsBhv.CopyTo ( bwFl );
+					}
+					using ( FileStream fsGns = new FileStream ( img_gns_path, FileMode.Open ) )
+					{
+						long lnGns = fsGns.Length;
+						fsGns.CopyTo ( bwFl );
+					}
+
+				}   //using
+
+#endif
+
+			}   //using
+
+		}
+
+
 	}
 }

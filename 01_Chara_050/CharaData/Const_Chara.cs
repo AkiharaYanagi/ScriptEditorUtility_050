@@ -77,6 +77,7 @@ namespace Chara050
 	//発生条件
 	public enum Generate_Condition
 	{
+		ALL,        //常時発生
 		HIT,        //ヒット時
 		GUARD,      //ガード時
 		OFFSET,		//相殺時

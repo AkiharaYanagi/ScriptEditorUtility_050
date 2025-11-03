@@ -220,20 +220,31 @@ namespace Chara050
 
 
 			//各スクリプト
-			foreach ( Frame frm in lsFrm)
+			foreach ( Frame frm in lsFrm )
 			{ 
 				//グループ
 				bw.Write ( frm.Group );
 
 				//イメージインデックス
 				uint imgIndex = 0;
-				try
+
+				//イメージが１つも無いとき（.scp書出など）
+				if ( 0 == cmp.BD_Image.Count() )
 				{
-					imgIndex = (uint) cmp.BD_Image.IndexOf ( frm.ImgName );
+					imgIndex = frm.ImgIndex;
 				}
-				catch
+				else
 				{
-					imgIndex = UInt32.MaxValue;
+					//エディタでは名前だが、ゲームメインではインデックス
+					//イメージ名からインデックスを取得
+					try
+					{
+						imgIndex = (uint) cmp.BD_Image.IndexOf ( frm.ImgName );
+					}
+					catch
+					{
+						imgIndex = UInt32.MaxValue;
+					}
 				}
 				bw.Write ( (uint)imgIndex );
 

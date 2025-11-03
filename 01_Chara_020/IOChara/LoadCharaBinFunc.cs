@@ -1,12 +1,14 @@
-﻿using System.Drawing;
+﻿using ScriptEditorUtility;
+
+using System;
 using System.Diagnostics;
-using ScriptEditorUtility;
+using System.Drawing;
 
 
 namespace Chara020
 {
-	using GK_L = GameKeyData.Lever;
 	using GK_B = GameKeyData.Button;
+	using GK_L = GameKeyData.Lever;
 	using GK_ST = GameKeyData.GameKeyState;
 
 
@@ -194,7 +196,7 @@ namespace Chara020
 #else
 
 				//イメージインデックス
-				uint imgIndex = br.ReadUInt32 ();
+				scp.ImgIndex = br.ReadUInt32 ();
 
 
 				//イメージ名
@@ -205,11 +207,13 @@ namespace Chara020
 				scp.Pos = new Point ( br.ReadInt32 (), br.ReadInt32 () );
 
 				//ルート名リスト
-				uint nRut = br.ReadUInt32 ();
+				uint nRut = br.ReadUInt32 ();   //個数[uint]
 				for ( uint iRut = 0; iRut < nRut; ++ iRut )
 				{
 					//後にルート名に変換
-					scp.BD_RutName.Add ( new TName ( "Rut_" + br.ReadUInt32 ().ToString () ) );
+					uint rutIndex = br.ReadUInt32 ();
+					scp.BD_RutName.Add ( new TName ( "Rut_" + rutIndex.ToString () ) );
+//					Debug.WriteLine ( "ルート名読込: " + rutIndex.ToString () );
 				}
 
 				//枠リスト
@@ -416,7 +420,12 @@ namespace Chara020
 					List < string > L_name = new List<string> ();
 					foreach ( TName? t in scp.BD_RutName.GetEnumerable () )
 					{
-						if ( t is null ) { continue ; }
+						if ( t is null ) { continue; }
+						if ( t.Name == "Rut_0" ) 
+						{
+							//Debug.WriteLine ( "ルート名再指定: " + t.Name );
+						}
+
 
 						int id = GetIndex ( t.Name, "Rut_" );
 						L_name.Add ( chara.BD_Route [ id ]!.Name );
@@ -426,7 +435,12 @@ namespace Chara020
 					scp.BD_RutName.Clear ();
 					foreach ( string name in L_name )
 					{
+						if ( name == "Rut_0" ) 
+						{
+//							Debug.WriteLine ( "Rut_0" );
+						}
 						scp.BD_RutName.Add ( new TName ( name ) );
+						//Debug.WriteLine ( "ルート名再指定: " + name );
 					}
 				}
 			}
@@ -439,17 +453,17 @@ namespace Chara020
 		private int GetIndex ( string str_index, string head )
 		{
 			int n = head.Length;
-			int nextActionID = 0;
+			int index = 0;
 			try
 			{
-				nextActionID = int.Parse ( str_index.Substring ( n, str_index.Length - n ) );
+				index = int.Parse ( str_index.Substring ( n, str_index.Length - n ) );
 			}
 			catch ( Exception e )
 			{
 				Debug.WriteLine ( e.Message );
 				return 0;
 			}
-			return nextActionID;
+			return index;
 		}
 	}
 }

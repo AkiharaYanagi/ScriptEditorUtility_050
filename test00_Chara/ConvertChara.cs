@@ -147,6 +147,44 @@ namespace test00_Chara
 		}
 
 
+		public Chara050.Chara Convert_without_image ( Chara020.Chara chara020 )
+		{
+			Chara050.Chara chara050 = new Chara050.Chara ();
+
+			Debug.WriteLine ( "■■■■■■■■■■■■■■■■■■■■■■■■■■■■■" );
+			Debug.WriteLine ( "Convert." );
+
+
+			//--------------------------------------------------
+			//behavior
+			var bd_act_020 = chara020.behavior.BD_Sequence;
+			var bd_act_050 = chara050.charaset.behavior.BD_Sequence;
+			ConvertBehavior ( bd_act_020, bd_act_050 );
+//			ConvertImage ( chara020.behavior.BD_Image, chara050.charaset.behavior.BD_Image );
+
+			//--------------------------------------------------
+			//garnish
+			var bd_gns_020 = chara020.garnish.BD_Sequence;
+			var bd_gns_050 = chara050.charaset.garnish.BD_Sequence;
+			ConvertGarnish ( bd_gns_020, bd_gns_050 );
+//			ConvertImage ( chara020.garnish.BD_Image, chara050.charaset.garnish.BD_Image );
+
+			//--------------------------------------------------
+			//Command
+			ConvertCommand ( chara020, chara050 );
+
+			//--------------------------------------------------
+			//Branch
+			ConvertBranch ( chara020, chara050 );
+
+			//--------------------------------------------------
+			//Route
+			ConvertRoute ( chara020, chara050 );
+
+			//--------------------------------------------------
+			//変換済みキャラを返す
+			return chara050;
+		}
 
 	}
 
