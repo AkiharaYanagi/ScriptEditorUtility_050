@@ -71,15 +71,44 @@ namespace test00_Chara
 				SE5.Branch brc5 = new SE5.Branch ();
 
 				brc5.Name = brc2.Name;
-				brc5.Condition = (SE5.BranchCondition)brc2.Condition;
+				brc5.Condition = ConvertBranchCondition ( brc2.Condition );
 				brc5.BD_NameCommand.Add ( new TName ( brc2.NameCommand ) );
 				brc5.NameSequence = brc2.NameSequence;
 				brc5.Frame = brc2.Frame;
 				brc5.Other = brc2.Other;
-
 				ch050.charaset.BD_Branch.Add ( brc5 );
 			}
+		}
 
+		SE5.BranchCondition ConvertBranchCondition ( SE2.BranchCondition bc2 )
+		{
+			switch ( bc2 )
+			{
+				case SE2.BranchCondition.NONE:	return SE5.BranchCondition.NONE;
+				case SE2.BranchCondition.CMD:	return SE5.BranchCondition.CMD;
+				case SE2.BranchCondition.GRD:	return SE5.BranchCondition.GRD;
+				case SE2.BranchCondition.WALL:	return SE5.BranchCondition.WALL;
+				case SE2.BranchCondition.COERACION:	return SE5.BranchCondition.COERACION;
+				case SE2.BranchCondition.DMG_I:	return SE5.BranchCondition.DMG_I;
+				case SE2.BranchCondition.HIT_I:	return SE5.BranchCondition.HIT_I;
+				case SE2.BranchCondition.HIT_E:	return SE5.BranchCondition.HIT_E;
+//				case SE2.BranchCondition.GAD_I:	return SE5.BranchCondition.GAD_I;
+//				case SE2.BranchCondition.GAD_E:	return SE5.BranchCondition.GAD_E;
+				case SE2.BranchCondition.THR_I:	return SE5.BranchCondition.THR_I;
+				case SE2.BranchCondition.THR_E:	return SE5.BranchCondition.THR_E;
+				case SE2.BranchCondition.OFS:	return SE5.BranchCondition.OFS;
+				case SE2.BranchCondition.END:	return SE5.BranchCondition.END;
+				case SE2.BranchCondition.DASH:	return SE5.BranchCondition.DASH;
+				case SE2.BranchCondition.FLG_0:	return SE5.BranchCondition.FLG_0;
+				case SE2.BranchCondition.FLG_1:	return SE5.BranchCondition.FLG_1;
+				case SE2.BranchCondition.FLG_2:	return SE5.BranchCondition.FLG_2;
+				case SE2.BranchCondition.FLG_3:	return SE5.BranchCondition.FLG_3;
+				case SE2.BranchCondition.FLG_4:	return SE5.BranchCondition.FLG_4;
+				case SE2.BranchCondition.FLG_5:	return SE5.BranchCondition.FLG_5;
+				case SE2.BranchCondition.FLG_6:	return SE5.BranchCondition.FLG_6;
+				case SE2.BranchCondition.FLG_7:return SE5.BranchCondition.FLG_7;
+			}
+			return SE5.BranchCondition.CMD;
 		}
 
 		//ルートの変換

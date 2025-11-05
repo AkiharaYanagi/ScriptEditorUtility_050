@@ -406,7 +406,10 @@ namespace Chara020
 				chara.BD_Route.Add ( rut );
 			}
 
-			//スクリプトにおけるルート名の再設定
+			//スクリプトにおけるルート名の再設定(behavior, garnish)
+			AssignRouteName ( chara, chara.behavior );
+			AssignRouteName ( chara, chara.garnish );
+#if false
 			foreach ( Action? act in chara.behavior.BD_Sequence.GetEnumerable () )
 			{
 				if ( act is null ) { continue; }
@@ -444,6 +447,41 @@ namespace Chara020
 					}
 				}
 			}
+
+#endif
+
+		}
+
+		//スクリプトにおけるルート名の再設定
+		private void AssignRouteName ( Chara chara, Compend cmpd )
+		{
+			foreach ( Sequence? sqc in cmpd.BD_Sequence.GetEnumerable () )
+			{
+				if ( sqc is null ) { continue; }
+				foreach ( Script? scp in sqc.ListScript )
+				{
+					if ( scp is null ) { continue; }
+
+					//名前だけのリストを作成
+					List<string> L_name = new List<string> ();
+					foreach ( TName? t in scp.BD_RutName.GetEnumerable () )
+					{
+						if ( t is null ) { continue; }
+						int id = GetIndex ( t.Name, "Rut_" );
+						Route? rut = chara.BD_Route [ id ];
+						if ( rut is null ) { continue; }
+						L_name.Add ( rut.Name );
+					}
+
+					//クリアして再追加
+					scp.BD_RutName.Clear ();
+					foreach ( string name in L_name )
+					{
+						scp.BD_RutName.Add ( new TName ( name ) );
+					}
+				}
+			}
+
 
 		}
 
