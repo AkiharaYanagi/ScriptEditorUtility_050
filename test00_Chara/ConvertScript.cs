@@ -87,11 +87,6 @@ namespace test00_Chara
 				BtlPrm.Warp_E = scp.BtlPrm.Warp;
 				BtlPrm.GuardWarp_I = 0;
 				BtlPrm.GuardWarp_E = 0;
-				
-				if ( BtlPrm.Warp_E != 0 )
-				{
-					int i = 0;
-				}
 
 				//演出パラメータ
 				FrameParam_Staging StgPrm = frm.StgPrm;
